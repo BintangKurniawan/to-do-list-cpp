@@ -78,6 +78,52 @@ void cetakList()
     }
 }
 
+string toLower(string str)
+{
+    for (char &c : str)
+    {
+        c = tolower(c);
+    }
+    return str;
+}
+
+void cariList()
+{
+    cin.ignore();
+    string keyword;
+    cout << "Masukkan keyword untuk mencari list: ";
+    getline(cin, keyword);
+    keyword = toLower(keyword);
+
+    list *current = head;
+    bool found = false;
+
+    cout << left
+         << setw(20) << "Nama List"
+         << setw(15) << "Prioritas"
+         << setw(40) << "Deskripsi" << endl;
+    cout << string(75, '-') << endl;
+
+    while (current != NULL)
+    {
+        string lowerName = toLower(current->name);
+        if (lowerName.find(keyword) != string::npos)
+        {
+            found = true;
+            cout << left
+                 << setw(20) << current->name
+                 << setw(15) << current->priority
+                 << setw(40) << current->description << endl;
+        }
+        current = current->next;
+    }
+
+    if (!found)
+    {
+        cout << "Tidak ada list yang cocok dengan keyword." << endl;
+    }
+}
+
 void lihatList()
 {
 
@@ -104,7 +150,7 @@ void lihatList()
         }
         else if (pilihan == 1)
         {
-            cout << "Bentar" << endl;
+            cariList();
         }
         else if (pilihan == 2)
         {
