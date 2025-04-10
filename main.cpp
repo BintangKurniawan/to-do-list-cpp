@@ -22,6 +22,8 @@ struct list
 list *head;
 list *tail;
 
+int idCounter = 1;
+
 bool isEmpty()
 {
     if (head == NULL)
@@ -33,6 +35,10 @@ void insertLast(string name, string brand, float value, string category, string 
 {
     list *new_list, *current;
     new_list = new list();
+
+    new_list->id = "ID" + to_string(idCounter);
+    idCounter++;
+
     new_list->name = name;
     new_list->brand = brand;
     new_list->value = value;
@@ -64,6 +70,7 @@ void cetakList()
         list *current = head;
 
         cout << left
+             << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
              << setw(15) << "Value"
@@ -73,10 +80,11 @@ void cetakList()
              << setw(8) << "Stock"
              << endl;
 
-        cout << string(102, '-') << endl;
+        cout << string(122, '-') << endl;
         while (current != NULL)
         {
             cout << left
+                 << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
                  << setw(15) << fixed << setprecision(0) << current->value
@@ -91,7 +99,7 @@ void cetakList()
     }
     else
     {
-        cout << "List kosong." << endl;
+        cout << "Barang kosong." << endl;
     }
 }
 
@@ -104,51 +112,155 @@ string toLower(string str)
     return str;
 }
 
-void cariList()
+void cariBarang()
 {
-    cin.ignore();
-    string keyword;
-    cout << "Masukkan keyword untuk mencari list: ";
-    getline(cin, keyword);
-    keyword = toLower(keyword);
-
-    list *current = head;
-    bool found = false;
-
-    cout << left
-         << setw(30) << "Nama Barang"
-         << setw(25) << "Brand"
-         << setw(40) << "Value"
-         << setw(50) << "Category"
-         << setw(25) << "Status"
-         << setw(25) << "Condition"
-         << setw(10) << "Stock"
-         << endl;
-
-    cout << string(200, '-') << endl;
-
-    while (current != NULL)
+    while (true)
     {
-        string lowerName = toLower(current->name);
-        if (lowerName.find(keyword) != string::npos)
+        system("cls");
+        cetakList();
+
+        string keyword;
+        string searchId = "", searchName = "", searchCategory = "", searchStatus = "", searchCondition = "", searchBrand = "";
+
+        cout << endl;
+        cout << "Cari barang berdasarkan kriteria berikut:" << endl;
+        cout << "1. ID Barang" << endl;
+        cout << "2. Nama Barang" << endl;
+        cout << "3. Kategori" << endl;
+        cout << "4. Status" << endl;
+        cout << "5. Kondisi" << endl;
+        cout << "6. Brand" << endl;
+        cout << "7. Semua kriteria (multi-criteria)" << endl;
+        cout << "8. Keluar" << endl;
+        cout << "Pilih kriteria pencarian (masukkan angka): ";
+
+        int pilihan;
+        cin >> pilihan;
+
+        if (pilihan == 1)
         {
-            found = true;
-            cout << left
-                 << setw(30) << current->name
-                 << setw(25) << current->brand
-                 << setw(40) << current->value
-                 << setw(50) << current->category
-                 << setw(25) << current->status
-                 << setw(25) << current->condition
-                 << setw(10) << current->stock
-                 << endl;
+            cout << endl;
+            cout << "Masukkan ID Barang: ";
+            cin >> searchId;
         }
-        current = current->next;
-    }
+        else if (pilihan == 2)
+        {
+            cout << endl;
+            cout << "Masukkan Nama Barang: ";
+            cin.ignore();
+            getline(cin, searchName);
+        }
+        else if (pilihan == 3)
+        {
+            cout << endl;
+            cout << "Masukkan Kategori Barang: ";
+            cin.ignore();
+            getline(cin, searchCategory);
+        }
+        else if (pilihan == 4)
+        {
+            cout << endl;
+            cout << "Masukkan Status Barang: ";
+            cin.ignore();
+            getline(cin, searchStatus);
+        }
+        else if (pilihan == 5)
+        {
+            cout << endl;
+            cout << "Masukkan Kondisi Barang: ";
+            cin.ignore();
+            getline(cin, searchCondition);
+        }
+        else if (pilihan == 6)
+        {
+            cout << endl;
+            cout << "Masukkan Brand Barang: ";
+            cin.ignore();
+            getline(cin, searchBrand);
+        }
+        else if (pilihan == 7)
+        {
+            cout << endl;
+            cin.ignore();
+            cout << "Masukkan Nama Barang (Kosongkan jika tidak dicari): ";
+            getline(cin, searchName);
+            cout << "Masukkan Kategori Barang (Kosongkan jika tidak dicari): ";
+            getline(cin, searchCategory);
+            cout << "Masukkan Status Barang (Kosongkan jika tidak dicari): ";
+            getline(cin, searchStatus);
+            cout << "Masukkan Kondisi Barang (Kosongkan jika tidak dicari): ";
+            getline(cin, searchCondition);
+            cout << "Masukkan Brand Barang (Kosongkan jika tidak dicari): ";
+            getline(cin, searchBrand);
+        }
+        else if (pilihan == 8)
+        {
+            cout << "Berhasil keluar dari program" << endl;
+            break;
+        }
+        else
+        {
+            cout << "Pilihan tidak valid. Kembali ke menu utama.\n";
+            return;
+        }
 
-    if (!found)
-    {
-        cout << "Tidak ada list yang cocok dengan keyword." << endl;
+        list *current = head;
+        bool found = false;
+
+        cout << left
+             << setw(20) << "ID Barang"
+             << setw(20) << "Nama Barang"
+             << setw(15) << "Brand"
+             << setw(15) << "Value"
+             << setw(20) << "Category"
+             << setw(12) << "Status"
+             << setw(12) << "Condition"
+             << setw(8) << "Stock"
+             << endl;
+
+        cout << string(122, '-') << endl;
+
+        while (current != NULL)
+        {
+            bool match = true;
+
+            if (!searchId.empty() && current->id != searchId)
+                match = false;
+            if (!searchName.empty() && toLower(current->name).find(toLower(searchName)) == string::npos)
+                match = false;
+            if (!searchCategory.empty() && toLower(current->category).find(toLower(searchCategory)) == string::npos)
+                match = false;
+            if (!searchStatus.empty() && toLower(current->status).find(toLower(searchStatus)) == string::npos)
+                match = false;
+            if (!searchCondition.empty() && toLower(current->condition).find(toLower(searchCondition)) == string::npos)
+                match = false;
+            if (!searchBrand.empty() && toLower(current->brand).find(toLower(searchBrand)) == string::npos)
+                match = false;
+
+            if (match)
+            {
+                found = true;
+                cout << left
+                     << setw(20) << current->id
+                     << setw(20) << current->name
+                     << setw(15) << current->brand
+                     << setw(15) << fixed << setprecision(0) << current->value
+                     << setw(20) << current->category
+                     << setw(12) << current->status
+                     << setw(12) << current->condition
+                     << setw(8) << current->stock
+                     << endl;
+            }
+
+            current = current->next;
+        }
+
+        if (!found)
+        {
+            cout << "Tidak ada barang yang cocok dengan keyword." << endl;
+        }
+
+        system("pause");
     }
 }
 
@@ -161,11 +273,13 @@ void lihatList()
 
         cetakList();
         cout << endl;
-        cout << "Pilih salah satu opsi (ketik dalam angka):" << endl;
-        cout << "1. Cari list" << endl;
-        cout << "2. Urutkan berdasarkan prioritas" << endl;
-        cout << "3. Urutkan berdasarkan status" << endl;
-        cout << "4. Keluar" << endl;
+        cout << "1. Cari barang" << endl;
+        cout << "2. Urutkan berdasarkan nama barang" << endl;
+        cout << "3. Urutkan barang dengan stok kosong" << endl;
+        cout << "4. Urutkan berdasarkan stok stok tertinggi" << endl;
+        cout << "5. Urutkan berdasarkan stok terendah" << endl;
+        cout << "6. Keluar" << endl;
+        cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
         cin >> pilihan;
@@ -178,7 +292,7 @@ void lihatList()
         }
         else if (pilihan == 1)
         {
-            cariList();
+            cariBarang();
         }
         else if (pilihan == 2)
         {
@@ -189,6 +303,14 @@ void lihatList()
             cout << "Bentar" << endl;
         }
         else if (pilihan == 4)
+        {
+            cout << "Bentar" << endl;
+        }
+        else if (pilihan == 5)
+        {
+            cout << "Bentar" << endl;
+        }
+        else if (pilihan == 6)
         {
             cout << "Berhasil keluar dari program" << endl;
             break;
@@ -240,9 +362,9 @@ void tambahList()
         insertLast(name, barang, value, category, status, condition, stock);
         cout << "List berhasil ditambahkan" << endl;
 
-        cout << "Pilih salah satu opsi (ketik dalam angka):" << endl;
         cout << "1. Menambah list lagi" << endl;
         cout << "2. Keluar" << endl;
+        cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
         cin >> pilihan;
@@ -262,17 +384,37 @@ void tambahList()
 
 int main()
 {
+    insertLast("Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
+    insertLast("Flashdisk", "Transcend", 280000, "Aksesoris", "Bekas", "Baik", 20);
+    insertLast("Monitor", "BenQ", 4200000, "Elektronik", "Bekas", "Baik", 10);
+
+    insertLast("Laptop", "HP", 7500000, "Elektronik", "Bekas", "Baik", 5);
+    insertLast("Flashdisk", "Kingston", 250000, "Aksesoris", "Baru", "Sempurna", 50);
+    insertLast("Keyboard", "Corsair", 1600000, "Aksesoris", "Baru", "Bagus", 15);
+
+    insertLast("Laptop", "Asus", 8000000, "Elektronik", "Baru", "Bagus", 10);
+    insertLast("Mouse", "Razer", 350000, "Aksesoris", "Baru", "Sempurna", 7);
+    insertLast("Keyboard", "Logitech", 1400000, "Aksesoris", "Bekas", "Baik", 25);
+
+    insertLast("Monitor", "Samsung", 4000000, "Elektronik", "Baru", "Bagus", 15);
+    insertLast("Laptop", "Dell", 8500000, "Elektronik", "Baru", "Sempurna", 8);
+    insertLast("Keyboard", "Razer", 1500000, "Aksesoris", "Baru", "Sempurna", 20);
+
+    insertLast("Flashdisk", "Sandisk", 300000, "Aksesoris", "Baru", "Bagus", 30);
+    insertLast("Monitor", "LG", 4500000, "Elektronik", "Baru", "Sempurna", 12);
+    insertLast("Mouse", "SteelSeries", 400000, "Aksesoris", "Baru", "Bagus", 10);
+
     while (true)
     {
         system("cls");
 
         cout << "========Welcome to HMP Inventory Management========" << endl;
-        cout << "Pilih salah satu opsi (ketik dalam angka):" << endl;
         cout << "1. Lihat barang" << endl;
         cout << "2. Tambah barang" << endl;
         cout << "3. Edit barang" << endl;
         cout << "4. Hapus barang" << endl;
         cout << "5. Keluar" << endl;
+        cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
         cin >> pilihan;
