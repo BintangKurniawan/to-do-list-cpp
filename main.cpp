@@ -8,15 +8,21 @@ using namespace std;
 
 struct list
 {
+    string id;
     string name;
-    string priority;
-    string description;
+    string brand;
+    float value;
+    string category;
     string status;
+    string condition;
+    int stock;
     list *next;
 };
 
 list *head;
 list *tail;
+
+int idCounter = 1;
 
 bool isEmpty()
 {
@@ -25,14 +31,21 @@ bool isEmpty()
     return false;
 }
 
-void insertLast(string name, string priority, string description)
+void insertLast(string name, string brand, float value, string category, string status, string condition, int stock)
 {
     list *new_list, *current;
     new_list = new list();
+
+    new_list->id = "ID" + to_string(idCounter);
+    idCounter++;
+
     new_list->name = name;
-    new_list->priority = priority;
-    new_list->description = description;
-    new_list->status = "Belum Selesai";
+    new_list->brand = brand;
+    new_list->value = value;
+    new_list->category = category;
+    new_list->status = status;
+    new_list->condition = condition;
+    new_list->stock = stock;
     new_list->next = NULL;
 
     if (isEmpty())
@@ -57,24 +70,36 @@ void cetakList()
         list *current = head;
 
         cout << left
-             << setw(20) << "Nama List"
-             << setw(15) << "Prioritas"
-             << setw(40) << "Deskripsi" << endl;
+             << setw(20) << "ID Barang"
+             << setw(20) << "Nama Barang"
+             << setw(15) << "Brand"
+             << setw(15) << "Value"
+             << setw(20) << "Category"
+             << setw(12) << "Status"
+             << setw(12) << "Condition"
+             << setw(8) << "Stock"
+             << endl;
 
-        cout << string(75, '-') << endl;
+        cout << string(122, '-') << endl;
         while (current != NULL)
         {
             cout << left
+                 << setw(20) << current->id
                  << setw(20) << current->name
-                 << setw(15) << current->priority
-                 << setw(40) << current->description << endl;
+                 << setw(15) << current->brand
+                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(20) << current->category
+                 << setw(12) << current->status
+                 << setw(12) << current->condition
+                 << setw(8) << current->stock
+                 << endl;
 
             current = current->next;
         }
     }
     else
     {
-        cout << "List kosong." << endl;
+        cout << "Barang kosong." << endl;
     }
 }
 
@@ -87,11 +112,11 @@ string toLower(string str)
     return str;
 }
 
-void cariList()
+void cariBarang()
 {
     cin.ignore();
     string keyword;
-    cout << "Masukkan keyword untuk mencari list: ";
+    cout << "Masukkan keyword untuk mencari barang: ";
     getline(cin, keyword);
     keyword = toLower(keyword);
 
@@ -99,10 +124,17 @@ void cariList()
     bool found = false;
 
     cout << left
-         << setw(20) << "Nama List"
-         << setw(15) << "Prioritas"
-         << setw(40) << "Deskripsi" << endl;
-    cout << string(75, '-') << endl;
+         << setw(20) << "ID Barang"
+         << setw(20) << "Nama Barang"
+         << setw(15) << "Brand"
+         << setw(15) << "Value"
+         << setw(20) << "Category"
+         << setw(12) << "Status"
+         << setw(12) << "Condition"
+         << setw(8) << "Stock"
+         << endl;
+
+    cout << string(122, '-') << endl;
 
     while (current != NULL)
     {
@@ -111,16 +143,22 @@ void cariList()
         {
             found = true;
             cout << left
+                 << setw(20) << current->id
                  << setw(20) << current->name
-                 << setw(15) << current->priority
-                 << setw(40) << current->description << endl;
+                 << setw(15) << current->brand
+                 << setw(15) << current->value
+                 << setw(20) << current->category
+                 << setw(12) << current->status
+                 << setw(12) << current->condition
+                 << setw(8) << current->stock
+                 << endl;
         }
         current = current->next;
     }
 
     if (!found)
     {
-        cout << "Tidak ada list yang cocok dengan keyword." << endl;
+        cout << "Tidak ada barang yang cocok dengan keyword." << endl;
     }
 }
 
@@ -133,11 +171,13 @@ void lihatList()
 
         cetakList();
         cout << endl;
-        cout << "Pilih salah satu opsi (ketik dalam angka):" << endl;
-        cout << "1. Cari list" << endl;
-        cout << "2. Urutkan berdasarkan prioritas" << endl;
-        cout << "3. Urutkan berdasarkan status" << endl;
-        cout << "4. Keluar" << endl;
+        cout << "1. Cari barang" << endl;
+        cout << "2. Urutkan berdasarkan nama barang" << endl;
+        cout << "3. Urutkan barang dengan stok kosong" << endl;
+        cout << "4. Urutkan berdasarkan stok stok tertinggi" << endl;
+        cout << "5. Urutkan berdasarkan stok terendah" << endl;
+        cout << "6. Keluar" << endl;
+        cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
         cin >> pilihan;
@@ -150,7 +190,7 @@ void lihatList()
         }
         else if (pilihan == 1)
         {
-            cariList();
+            cariBarang();
         }
         else if (pilihan == 2)
         {
@@ -161,6 +201,14 @@ void lihatList()
             cout << "Bentar" << endl;
         }
         else if (pilihan == 4)
+        {
+            cout << "Bentar" << endl;
+        }
+        else if (pilihan == 5)
+        {
+            cout << "Bentar" << endl;
+        }
+        else if (pilihan == 6)
         {
             cout << "Berhasil keluar dari program" << endl;
             break;
@@ -180,23 +228,41 @@ void tambahList()
     {
         cin.ignore();
         system("cls");
-        cout << "Masukkan nama list: ";
+        cout << "Masukkan nama barang: ";
         string name;
         getline(cin, name);
 
-        cout << "Masukkan prioritas list: ";
-        string priority;
-        getline(cin, priority);
+        cout << "Masukkan brand barang: ";
+        string barang;
+        getline(cin, barang);
 
-        cout << "Masukkan deskripsi list: ";
-        string description;
-        getline(cin, description);
-        insertLast(name, priority, description);
+        cout << "Masukkan value barang: ";
+        float value;
+        cin >> value;
+
+        cin.ignore();
+        cout << "Masukkan category barang: ";
+        string category;
+        getline(cin, category);
+
+        cout << "Masukkan status barang: ";
+        string status;
+        getline(cin, status);
+
+        cout << "Masukkan kondisi barang: ";
+        string condition;
+        getline(cin, condition);
+
+        cout << "Masukkan stock barang: ";
+        int stock;
+        cin >> stock;
+
+        insertLast(name, barang, value, category, status, condition, stock);
         cout << "List berhasil ditambahkan" << endl;
 
-        cout << "Pilih salah satu opsi (ketik dalam angka):" << endl;
         cout << "1. Menambah list lagi" << endl;
         cout << "2. Keluar" << endl;
+        cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
         cin >> pilihan;
@@ -220,13 +286,13 @@ int main()
     {
         system("cls");
 
-        cout << "========Welcome to HMP To do List========" << endl;
-        cout << "Pilih salah satu opsi (ketik dalam angka):" << endl;
-        cout << "1. Lihat list" << endl;
-        cout << "2. Tambah list" << endl;
-        cout << "3. Edit list" << endl;
-        cout << "4. Hapus list" << endl;
+        cout << "========Welcome to HMP Inventory Management========" << endl;
+        cout << "1. Lihat barang" << endl;
+        cout << "2. Tambah barang" << endl;
+        cout << "3. Edit barang" << endl;
+        cout << "4. Hapus barang" << endl;
         cout << "5. Keluar" << endl;
+        cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
         cin >> pilihan;

@@ -1,6 +1,10 @@
 {
   "files.associations": {
+    "*.embeddedhtml": "html",
     "iostream": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "limits": "cpp",
+    "ostream": "cpp",
+    "string": "cpp"
   }
 }
