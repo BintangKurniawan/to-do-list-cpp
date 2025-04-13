@@ -382,23 +382,27 @@ void tambahList()
     }
 }
 
-void editList(){
-    string id,name,brand,category,status,condition;
-    float value;
-    int stock;
-    cetakList();
-    cout << endl;
-    cout << "Masukkan ID barang yang akan di edit: ";
-    cin >> id;
-
-    list *current = head;
+void cetakbyId(string id) {
+    list* current = head;
     bool found = false;
 
-    while (current != NULL)
-    {
-        if (current->id == id)
-        {
+    while (current != NULL) {
+        if (current->id == id) {
             found = true;
+
+            cout << left
+                << setw(20) << "ID Barang"
+                << setw(20) << "Nama Barang"
+                << setw(15) << "Brand"
+                << setw(15) << "Value"
+                << setw(20) << "Category"
+                << setw(12) << "Status"
+                << setw(12) << "Condition"
+                << setw(8) << "Stock"
+                << endl;
+
+            cout << string(122, '-') << endl;
+
             cout << left
                 << setw(20) << current->id
                 << setw(20) << current->name
@@ -414,15 +418,30 @@ void editList(){
         current = current->next;
     }
 
-    if (!found)
-    {
-        cout << "ID barang tidak ditemukan." << endl;
+    if (!found) {
+        cout << "Barang dengan ID \"" << id << "\" tidak ditemukan." << endl;
     }
+}
+void editList(){
+    string id,name,brand,category,status,condition;
+    float value;
+    int stock;
+    cetakList();
+    cout << endl;
+    cout << "Masukkan ID barang yang akan di edit: ";
+    cin >> id;
+
+    list *current = head;
+
+
+    cetakbyId(id);
+
+    cout << endl;
 
     while (true)
     {
 
-        cout << "========PIlih data yang ingin diedit========" << endl;
+        cout << "========Pilih data yang ingin diedit========" << endl;
         cout << "1. Nama barang" << endl;
         cout << "2. Brand " << endl;
         cout << "3. Value" << endl;
@@ -430,6 +449,8 @@ void editList(){
         cout << "5. Status" << endl;
         cout << "6. Condition" << endl;
         cout << "7. Stock" << endl;
+        cout << "8. Keluar" << endl;
+
         cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
@@ -451,24 +472,7 @@ void editList(){
                     
                     cin >> name;
                     current->name = name;
-                    while (current != NULL)
-                    {
-                        if (current->id == id)
-                        {
-                            cout << left
-                                << setw(20) << current->id
-                                << setw(20) << current->name
-                                << setw(15) << current->brand
-                                << setw(15) << fixed << setprecision(0) << current->value
-                                << setw(20) << current->category
-                                << setw(12) << current->status
-                                << setw(12) << current->condition
-                                << setw(8) << current->stock
-                                << endl;
-                            break;
-                        }
-                        current = current->next;
-                    }
+                    cetakbyId(id);
                     break;
                 }
                 current = current->next;
@@ -476,27 +480,98 @@ void editList(){
         }
         else if (pilihan == 2)
         {
-            cout << "" << endl;
+            while (current != NULL)
+            {
+                if (current->id == id)
+                {
+                    cout << "Masukkan nama Brand: ";
+                    
+                    cin >> brand;
+                    current->brand = brand;
+                    cetakbyId(id);
+                    break;
+                }
+                current = current->next;
+            }
         }
         else if (pilihan == 3)
         {
-            cout << "" << endl;
+            while (current != NULL)
+            {
+                if (current->id == id)
+                {
+                    cout << "Masukkan Value Barang: ";
+                    
+                    cin >> value;
+                    current->value = value;
+                    cetakbyId(id);
+                    break;
+                }
+                current = current->next;
+            }
         }
         else if (pilihan == 4)
         {
-            cout << "" << endl;
+            while (current != NULL)
+            {
+                if (current->id == id)
+                {
+                    cout << "Masukkan Category Barang: ";
+                    
+                    cin >> category;
+                    current->category = category;
+                    cetakbyId(id);
+                    break;
+                }
+                current = current->next;
+            }
         }
         else if (pilihan == 5)
         {
-            cout << "" << endl;
+            while (current != NULL)
+            {
+                if (current->id == id)
+                {
+                    cout << "Masukkan Status Barang: ";
+                    cin >> status;
+                    current->status = status;
+                    cetakbyId(id);
+                    break;
+                }
+                current = current->next;
+            }
         }
         else if (pilihan == 6)
         {
-            cout << "" << endl;
+            while (current != NULL)
+            {
+                if (current->id == id)
+                {
+                    cout << "Masukkan kondisi Barang: ";
+                    
+                    cin >> condition;
+                    current->condition = condition;
+                    cetakbyId(id);
+                    break;
+                }
+                current = current->next;
+            }
         }
         else if (pilihan == 7)
         {
-            cout << "" << endl;
+            while (current != NULL)
+            {
+                if (current->id == id)
+                {
+                    cout << "Masukkan Stock Barang: ";
+                    
+                    cin >> stock;
+                    current->stock = stock;
+                    cetakbyId(id);
+                    break;
+                }
+                current = current->next;
+            }
 
         }
         else if (pilihan == 8)
@@ -508,7 +583,7 @@ void editList(){
         {
             cout << "Pilihan tidak tersedia" << endl;
         }
-
+        cout << "Data berhasil di edit" << endl;
         system("pause");
     }
 
