@@ -390,17 +390,32 @@ void editList(){
     cin >> id;
 
     list *current = head;
+    bool found = false;
 
     while (current != NULL)
     {
         if (current->id == id)
         {
-            
+            found = true;
+            cout << left
+                << setw(20) << current->id
+                << setw(20) << current->name
+                << setw(15) << current->brand
+                << setw(15) << fixed << setprecision(0) << current->value
+                << setw(20) << current->category
+                << setw(12) << current->status
+                << setw(12) << current->condition
+                << setw(8) << current->stock
+                << endl;
+            break;
         }
         current = current->next;
     }
-    cout << current->id << endl;
 
+    if (!found)
+    {
+        cout << "ID barang tidak ditemukan." << endl;
+    }
 
 
 }
