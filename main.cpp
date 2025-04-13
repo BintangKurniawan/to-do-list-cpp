@@ -419,7 +419,7 @@ void cetakbyId(string id) {
     }
 
     if (!found) {
-        cout << "Barang dengan ID \"" << id << "\" tidak ditemukan." << endl;
+        cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
     }
 }
 void editList(){
@@ -428,13 +428,30 @@ void editList(){
     int stock;
     cetakList();
     cout << endl;
-    cout << "Masukkan ID barang yang akan di edit: ";
-    cin >> id;
-
     list *current = head;
 
+    while (true) {
+        cout << "Masukkan ID barang yang akan diedit: ";
+        cin >> id;
 
-    cetakbyId(id);
+        current = head;
+        bool found = false;
+
+        while (current != NULL) {
+            if (current->id == id) {
+                found = true;
+                break;
+            }
+            current = current->next;
+        }
+
+        if (!found) {
+            cout << "ID tidak ditemukan, silakan masukkan ulang." << endl;
+        } else {
+            cetakbyId(id);
+            break; 
+        }
+    }
 
     cout << endl;
 
