@@ -601,7 +601,6 @@ void editList(){
             cout << "Pilihan tidak tersedia" << endl;
         }
         cout << "Data berhasil di edit" << endl;
-        system("pause");
     }
 
 
