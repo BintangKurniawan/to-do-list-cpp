@@ -316,6 +316,41 @@ void filterStockKosong()
     }
 }
 
+void sort(bool descending)
+{
+    system("cls");
+    if (isEmpty())
+    {
+        cout << "Tidak ada data barang.\n";
+        system("pause");
+        return;
+    }
+
+    list *i, *j;
+
+    for (i = head; i != NULL; i = i->next)
+    {
+        for (j = i->next; j != NULL; j = j->next)
+        {
+            if ((descending && i->stock < j->stock) || (!descending && i->stock > j->stock))
+            {
+                swap(i->id, j->id);
+                swap(i->name, j->name);
+                swap(i->brand, j->brand);
+                swap(i->value, j->value);
+                swap(i->category, j->category);
+                swap(i->status, j->status);
+                swap(i->condition, j->condition);
+                swap(i->stock, j->stock);
+            }
+        }
+    }
+    cout << "\nData setelah diurutkan berdasarkan stok "
+         << (descending ? "tertinggi" : "terendah") << ":\n";
+    cetakList();
+    system("pause");
+}
+
 void lihatList()
 {
 
@@ -351,11 +386,11 @@ void lihatList()
         }
         else if (pilihan == 3)
         {
-            cout << "Bentar" << endl;
+            sort(true);
         }
         else if (pilihan == 4)
         {
-            cout << "Bentar" << endl;
+            sort(false);
         }
         else if (pilihan == 5)
         {
@@ -366,8 +401,6 @@ void lihatList()
         {
             cout << "Pilihan tidak tersedia" << endl;
         }
-
-        system("pause");
     }
 }
 
