@@ -383,7 +383,9 @@ void tambahList()
 }
 
 void editList(){
-    string id;
+    string id,name,brand,category,status,condition;
+    float value;
+    int stock;
     cetakList();
     cout << endl;
     cout << "Masukkan ID barang yang akan di edit: ";
@@ -415,6 +417,99 @@ void editList(){
     if (!found)
     {
         cout << "ID barang tidak ditemukan." << endl;
+    }
+
+    while (true)
+    {
+
+        cout << "========PIlih data yang ingin diedit========" << endl;
+        cout << "1. Nama barang" << endl;
+        cout << "2. Brand " << endl;
+        cout << "3. Value" << endl;
+        cout << "4. Category" << endl;
+        cout << "5. Status" << endl;
+        cout << "6. Condition" << endl;
+        cout << "7. Stock" << endl;
+        cout << "Pilih salah satu opsi (ketik dalam angka): ";
+
+        int pilihan;
+        cin >> pilihan;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Input tidak valid. Masukkan angka saja!" << endl;
+        }
+        else if (pilihan == 1)
+        {
+            while (current != NULL)
+            {
+                if (current->id == id)
+                {
+                    cout << "Masukkan nama barang: ";
+                    
+                    cin >> name;
+                    current->name = name;
+                    while (current != NULL)
+                    {
+                        if (current->id == id)
+                        {
+                            cout << left
+                                << setw(20) << current->id
+                                << setw(20) << current->name
+                                << setw(15) << current->brand
+                                << setw(15) << fixed << setprecision(0) << current->value
+                                << setw(20) << current->category
+                                << setw(12) << current->status
+                                << setw(12) << current->condition
+                                << setw(8) << current->stock
+                                << endl;
+                            break;
+                        }
+                        current = current->next;
+                    }
+                    break;
+                }
+                current = current->next;
+            }
+        }
+        else if (pilihan == 2)
+        {
+            cout << "" << endl;
+        }
+        else if (pilihan == 3)
+        {
+            cout << "" << endl;
+        }
+        else if (pilihan == 4)
+        {
+            cout << "" << endl;
+        }
+        else if (pilihan == 5)
+        {
+            cout << "" << endl;
+        }
+        else if (pilihan == 6)
+        {
+            cout << "" << endl;
+        }
+        else if (pilihan == 7)
+        {
+            cout << "" << endl;
+
+        }
+        else if (pilihan == 8)
+        {
+            cout << "" << endl;
+            break;
+        }
+        else
+        {
+            cout << "Pilihan tidak tersedia" << endl;
+        }
+
+        system("pause");
     }
 
 
