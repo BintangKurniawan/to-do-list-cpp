@@ -264,6 +264,93 @@ void cariBarang()
     }
 }
 
+void filterStockKosong()
+{
+    system("cls");
+
+    if (isEmpty())
+    {
+        cout << "Tidak ada data barang.\n";
+        system("pause");
+        return;
+    }
+
+    list *current = head;
+    bool found = false;
+
+    cout << left
+         << setw(20) << "ID Barang"
+         << setw(20) << "Nama Barang"
+         << setw(15) << "Brand"
+         << setw(15) << "Value"
+         << setw(20) << "Category"
+         << setw(12) << "Status"
+         << setw(12) << "Condition"
+         << setw(8) << "Stock"
+         << endl;
+
+    cout << string(122, '-') << endl;
+
+    while (current != NULL)
+    {
+        if (current->stock == 0)
+        {
+            found = true;
+            cout << left
+                 << setw(20) << current->id
+                 << setw(20) << current->name
+                 << setw(15) << current->brand
+                 << setw(15) << current->value
+                 << setw(20) << current->category
+                 << setw(12) << current->status
+                 << setw(12) << current->condition
+                 << setw(8) << current->stock
+                 << endl;
+        }
+        current = current->next;
+    }
+
+    if (!found)
+    {
+        cout << "Tidak ada barang dengan stok kosong.\n";
+    }
+}
+
+void sort(bool descending)
+{
+    system("cls");
+    if (isEmpty())
+    {
+        cout << "Tidak ada data barang.\n";
+        system("pause");
+        return;
+    }
+
+    list *i, *j;
+
+    for (i = head; i != NULL; i = i->next)
+    {
+        for (j = i->next; j != NULL; j = j->next)
+        {
+            if ((descending && i->stock < j->stock) || (!descending && i->stock > j->stock))
+            {
+                swap(i->id, j->id);
+                swap(i->name, j->name);
+                swap(i->brand, j->brand);
+                swap(i->value, j->value);
+                swap(i->category, j->category);
+                swap(i->status, j->status);
+                swap(i->condition, j->condition);
+                swap(i->stock, j->stock);
+            }
+        }
+    }
+    cout << "\nData setelah diurutkan berdasarkan stok "
+         << (descending ? "tertinggi" : "terendah") << ":\n";
+    cetakList();
+    system("pause");
+}
+
 void lihatList()
 {
 
@@ -274,11 +361,10 @@ void lihatList()
         cetakList();
         cout << endl;
         cout << "1. Cari barang" << endl;
-        cout << "2. Urutkan berdasarkan nama barang" << endl;
-        cout << "3. Urutkan barang dengan stok kosong" << endl;
-        cout << "4. Urutkan berdasarkan stok stok tertinggi" << endl;
-        cout << "5. Urutkan berdasarkan stok terendah" << endl;
-        cout << "6. Keluar" << endl;
+        cout << "2. Urutkan barang dengan stok kosong" << endl;
+        cout << "3. Urutkan berdasarkan stok stok tertinggi" << endl;
+        cout << "4. Urutkan berdasarkan stok terendah" << endl;
+        cout << "5. Keluar" << endl;
         cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
@@ -296,21 +382,17 @@ void lihatList()
         }
         else if (pilihan == 2)
         {
-            cout << "Bentar" << endl;
+            filterStockKosong();
         }
         else if (pilihan == 3)
         {
-            cout << "Bentar" << endl;
+            sort(true);
         }
         else if (pilihan == 4)
         {
-            cout << "Bentar" << endl;
+            sort(false);
         }
         else if (pilihan == 5)
-        {
-            cout << "Bentar" << endl;
-        }
-        else if (pilihan == 6)
         {
             cout << "Berhasil keluar dari program" << endl;
             break;
@@ -319,8 +401,6 @@ void lihatList()
         {
             cout << "Pilihan tidak tersedia" << endl;
         }
-
-        system("pause");
     }
 }
 
@@ -382,6 +462,62 @@ void tambahList()
     }
 }
 
+void hapusBarangById()
+{
+    system("cls");
+    cetakList();
+
+    if (isEmpty())
+    {
+        cout << "\nTidak ada barang untuk dihapus. " << endl;
+        return;
+    }
+
+    string id;
+    cout << "\nMasukkan ID barang yang ingin dihapus: ";
+    cin >> id;
+
+    list *current = head;
+    list *prev = NULL;
+    bool found = false;
+
+    while (current != NULL)
+    {
+        if (current->id == id)
+        {
+            found = true;
+            break;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    if (found)
+    {
+        // Jika data di awal list
+        if (current == head)
+        {
+            head = head->next;
+            delete current;
+        }
+        else
+        {
+            // Hapus node di tengah atau akhir
+            prev->next = current->next;
+            delete current;
+        }
+
+        cetakList();
+        cout << endl;
+        cout << "Barang dengan ID " << id << " berhasil dihapus." << endl;
+    }
+    else
+    {
+        cout << endl;
+        cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
+    }
+}
+
 int main()
 {
     insertLast("Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
@@ -439,7 +575,7 @@ int main()
         }
         else if (pilihan == 4)
         {
-            cout << "Bentar" << endl;
+            hapusBarangById();
         }
         else if (pilihan == 5)
         {
