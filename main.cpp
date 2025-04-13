@@ -389,7 +389,17 @@ void editList(){
     cout << "Masukkan ID barang yang akan di edit: ";
     cin >> id;
 
+    list *current = head;
 
+    while (current != NULL)
+    {
+        if (current->id == id)
+        {
+            
+        }
+        current = current->next;
+    }
+    cout << current->id << endl;
 
 
 
