@@ -683,9 +683,6 @@ void editList(){
         cout << "Data berhasil di edit" << endl;
     }
 }
-
-
-
 void hapusBarangById()
 {
     system("cls");
