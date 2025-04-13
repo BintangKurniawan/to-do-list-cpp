@@ -382,6 +382,19 @@ void tambahList()
     }
 }
 
+void editList(){
+    string id;
+    cetakList();
+    cout << endl;
+    cout << "Masukkan ID barang yang akan di edit: ";
+    cin >> id;
+
+
+
+
+
+}
+
 int main()
 {
     insertLast("Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
@@ -435,7 +448,7 @@ int main()
         }
         else if (pilihan == 3)
         {
-            cout << "Bentar" << endl;
+            editList();
         }
         else if (pilihan == 4)
         {
