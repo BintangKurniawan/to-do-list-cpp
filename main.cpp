@@ -382,6 +382,62 @@ void tambahList()
     }
 }
 
+void hapusBarangById()
+{
+    system("cls");
+    cetakList();
+
+    if (isEmpty())
+    {
+        cout << "\nTidak ada barang untuk dihapus. " << endl;
+        return;
+    }
+
+    string id;
+    cout << "\nMasukkan ID barang yang ingin dihapus: ";
+    cin >> id;
+
+    list *current = head;
+    list *prev = NULL;
+    bool found = false;
+
+    while (current != NULL)
+    {
+        if (current->id == id)
+        {
+            found = true;
+            break;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    if (found)
+    {
+        // Jika data di awal list
+        if (current == head)
+        {
+            head = head->next;
+            delete current;
+        }
+        else
+        {
+            // Hapus node di tengah atau akhir
+            prev->next = current->next;
+            delete current;
+        }
+
+        cetakList();
+        cout << endl;
+        cout << "Barang dengan ID " << id << " berhasil dihapus." << endl;
+    }
+    else
+    {
+        cout << endl;
+        cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
+    }
+}
+
 int main()
 {
     insertLast("Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
@@ -439,7 +495,7 @@ int main()
         }
         else if (pilihan == 4)
         {
-            cout << "Bentar" << endl;
+            hapusBarangById();
         }
         else if (pilihan == 5)
         {
