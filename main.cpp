@@ -34,6 +34,20 @@ bool isEmpty()
 void insertLast(string name, string brand, float value, string category, string status, string condition, int stock)
 {
     list *new_list, *current;
+
+    current = head;
+    while (current != NULL)
+    {
+        if (current->name == name && current->brand == brand)
+        {
+            current->stock += stock;
+            cout << "Stok berhasil ditambah ke barang yang sudah ada" << endl;
+            return;
+        }
+
+        current = current->next;
+    }
+
     new_list = new list();
 
     new_list->id = "ID" + to_string(idCounter);
@@ -60,6 +74,7 @@ void insertLast(string name, string brand, float value, string category, string 
             current = current->next;
         current->next = new_list;
         new_list->next = NULL;
+        cout << "Barang berhasil ditambahkan" << endl;
     }
 }
 
@@ -414,9 +429,27 @@ void tambahList()
         string name;
         getline(cin, name);
 
+        if (!name.empty())
+        {
+            name[0] = toupper(name[0]);
+            for (int i = 1; i < name.length(); i++)
+            {
+                name[i] = tolower(name[i]);
+            }
+        }
+
         cout << "Masukkan brand barang: ";
         string barang;
         getline(cin, barang);
+
+        if (!barang.empty())
+        {
+            barang[0] = toupper(barang[0]);
+            for (int i = 1; i < barang.length(); i++)
+            {
+                barang[i] = tolower(barang[i]);
+            }
+        }
 
         cout << "Masukkan value barang: ";
         float value;
@@ -440,7 +473,6 @@ void tambahList()
         cin >> stock;
 
         insertLast(name, barang, value, category, status, condition, stock);
-        cout << "List berhasil ditambahkan" << endl;
 
         cout << "1. Menambah list lagi" << endl;
         cout << "2. Keluar" << endl;
@@ -462,74 +494,85 @@ void tambahList()
     }
 }
 
-void cetakbyId(string id) {
-    list* current = head;
+void cetakbyId(string id)
+{
+    list *current = head;
     bool found = false;
 
-    while (current != NULL) {
-        if (current->id == id) {
+    while (current != NULL)
+    {
+        if (current->id == id)
+        {
             found = true;
 
             cout << left
-                << setw(20) << "ID Barang"
-                << setw(20) << "Nama Barang"
-                << setw(15) << "Brand"
-                << setw(15) << "Value"
-                << setw(20) << "Category"
-                << setw(12) << "Status"
-                << setw(12) << "Condition"
-                << setw(8) << "Stock"
-                << endl;
+                 << setw(20) << "ID Barang"
+                 << setw(20) << "Nama Barang"
+                 << setw(15) << "Brand"
+                 << setw(15) << "Value"
+                 << setw(20) << "Category"
+                 << setw(12) << "Status"
+                 << setw(12) << "Condition"
+                 << setw(8) << "Stock"
+                 << endl;
 
             cout << string(122, '-') << endl;
 
             cout << left
-                << setw(20) << current->id
-                << setw(20) << current->name
-                << setw(15) << current->brand
-                << setw(15) << fixed << setprecision(0) << current->value
-                << setw(20) << current->category
-                << setw(12) << current->status
-                << setw(12) << current->condition
-                << setw(8) << current->stock
-                << endl;
+                 << setw(20) << current->id
+                 << setw(20) << current->name
+                 << setw(15) << current->brand
+                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(20) << current->category
+                 << setw(12) << current->status
+                 << setw(12) << current->condition
+                 << setw(8) << current->stock
+                 << endl;
             break;
         }
         current = current->next;
     }
 
-    if (!found) {
+    if (!found)
+    {
         cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
     }
 }
-void editList(){
-    string id,name,brand,category,status,condition;
+void editList()
+{
+    string id, name, brand, category, status, condition;
     float value;
     int stock;
     cetakList();
     cout << endl;
     list *current = head;
 
-    while (true) {
+    while (true)
+    {
         cout << "Masukkan ID barang yang akan diedit: ";
         cin >> id;
 
         current = head;
         bool found = false;
 
-        while (current != NULL) {
-            if (current->id == id) {
+        while (current != NULL)
+        {
+            if (current->id == id)
+            {
                 found = true;
                 break;
             }
             current = current->next;
         }
 
-        if (!found) {
+        if (!found)
+        {
             cout << "ID tidak ditemukan, silakan masukkan ulang." << endl;
-        } else {
+        }
+        else
+        {
             cetakbyId(id);
-            break; 
+            break;
         }
     }
 
@@ -566,7 +609,7 @@ void editList(){
                 if (current->id == id)
                 {
                     cout << "Masukkan nama barang: ";
-                    
+
                     cin >> name;
                     current->name = name;
                     cetakbyId(id);
@@ -582,7 +625,7 @@ void editList(){
                 if (current->id == id)
                 {
                     cout << "Masukkan nama Brand: ";
-                    
+
                     cin >> brand;
                     current->brand = brand;
                     cetakbyId(id);
@@ -598,7 +641,7 @@ void editList(){
                 if (current->id == id)
                 {
                     cout << "Masukkan Value Barang: ";
-                    
+
                     cin >> value;
                     current->value = value;
                     cetakbyId(id);
@@ -614,7 +657,7 @@ void editList(){
                 if (current->id == id)
                 {
                     cout << "Masukkan Category Barang: ";
-                    
+
                     cin >> category;
                     current->category = category;
                     cetakbyId(id);
@@ -645,7 +688,7 @@ void editList(){
                 if (current->id == id)
                 {
                     cout << "Masukkan kondisi Barang: ";
-                    
+
                     cin >> condition;
                     current->condition = condition;
                     cetakbyId(id);
@@ -661,7 +704,7 @@ void editList(){
                 if (current->id == id)
                 {
                     cout << "Masukkan Stock Barang: ";
-                    
+
                     cin >> stock;
                     current->stock = stock;
                     cetakbyId(id);
@@ -669,7 +712,6 @@ void editList(){
                 }
                 current = current->next;
             }
-
         }
         else if (pilihan == 8)
         {
