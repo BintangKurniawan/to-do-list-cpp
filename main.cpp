@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
-
+#include <ctime>
 #include <limits>
 
 using namespace std;
@@ -781,6 +781,68 @@ void hapusBarangById()
     }
 }
 
+void pinjamBarang() {
+    while (true) {
+        system("cls");
+        cetakList();
+
+        if (isEmpty()) {
+            cout << "\nTidak ada barang yang tersedia untuk dipinjam." << endl;
+            break;  
+        }
+
+        string id;
+        cout << "\nMasukkan ID barang yang ingin dipinjam (ketik '0' untuk keluar): ";
+        cin >> id;
+
+        if (id == "0") {
+            break;
+        }
+
+        list *current = head;
+        bool found = false;
+
+        while (current != NULL) {
+            if (current->id == id) {
+                found = true;
+                break;
+            }
+            current = current->next;
+        }
+
+        if (!found) {
+            cout << "\nBarang dengan ID " << id << " tidak ditemukan. Silakan coba lagi.\n";
+            continue; 
+        }
+
+        int jumlah;
+        cout << "Masukkan jumlah yang ingin dipinjam (0 untuk batal): ";
+        cin >> jumlah;
+
+        if (jumlah == 0) {
+            cout << "Peminjaman dibatalkan." << endl;
+            break;
+        } else if (jumlah < 0) {
+            cout << "Jumlah tidak valid! Harus lebih dari 0.\n";
+        } else if (current->stock >= jumlah) {
+            current->stock -= jumlah;
+            cout << "Berhasil meminjam " << jumlah << " " << current->name << endl;
+            cout << "Sisa stok: " << current->stock << endl;
+            break;  
+        } else {
+            cout << "Stok tidak mencukupi, stok hanya: " << current->stock;
+        }
+
+        char pilihan;
+        cout << "\nCoba lagi? (y/n): ";
+        cin >> pilihan;
+
+        if (tolower(pilihan) != 'y') {
+            break;
+        }
+    }
+}
+
 int main()
 {
     insertLast("Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
@@ -842,10 +904,8 @@ int main()
         {
             hapusBarangById();
         }
-        else if (pilihan == 5)
-        {
-            cout << "Sedang Proses" << endl;
-            break;
+        else if (pilihan == 5) {
+            pinjamBarang();
         }
         else if (pilihan == 6)
         {
