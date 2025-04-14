@@ -770,7 +770,9 @@ int main()
         cout << "2. Tambah barang" << endl;
         cout << "3. Edit barang" << endl;
         cout << "4. Hapus barang" << endl;
-        cout << "5. Keluar" << endl;
+        cout << "5. Pinjam Barang" << endl;
+        cout << "6. Kembalikan Barang" << endl;
+        cout << "7. Keluar" << endl;
         cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
@@ -799,6 +801,16 @@ int main()
             hapusBarangById();
         }
         else if (pilihan == 5)
+        {
+            cout << "Sedang Proses" << endl;
+            break;
+        }
+        else if (pilihan == 6)
+        {
+            cout << "Sedang Proses" << endl;
+            break;
+        }
+        else if (pilihan == 7)
         {
             cout << "Berhasil keluar dari program" << endl;
             break;
