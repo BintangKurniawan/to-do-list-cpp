@@ -376,6 +376,7 @@ void filterStockKosong()
     {
         cout << "Tidak ada barang dengan stok kosong.\n";
     }
+    system("pause");
 }
 
 void sort(bool descending)
