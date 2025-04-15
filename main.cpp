@@ -6,6 +6,19 @@
 
 using namespace std;
 
+struct listPinjaman
+{
+    string id;
+    string name;
+    string brand;
+    float value;
+    int stock;
+    listPinjaman *next;
+};
+
+listPinjaman *headPinjaman;
+listPinjaman *tailPinjaman;
+
 struct list
 {
     string id;
@@ -115,6 +128,40 @@ void cetakList()
     else
     {
         cout << "Barang kosong." << endl;
+    }
+}
+
+void cetakListPinjaman()
+{
+    if (headPinjaman != NULL)
+    {
+        listPinjaman *current = headPinjaman;
+
+        cout << left
+             << setw(20) << "ID Barang"
+             << setw(20) << "Nama Barang"
+             << setw(15) << "Brand"
+             << setw(15) << "Value"
+             << setw(12) << "Stock"
+             << endl;
+
+        cout << string(82, '-') << endl;
+        while (current != NULL)
+        {
+            cout << left
+                 << setw(20) << current->id
+                 << setw(20) << current->name
+                 << setw(15) << current->brand
+                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(12) << current->stock
+                 << endl;
+
+            current = current->next;
+        }
+    }
+    else
+    {
+        cout << "Barang pinjaman kosong." << endl;
     }
 }
 
@@ -781,55 +828,261 @@ void hapusBarangById()
     }
 }
 
-void pinjamBarang() {
-    while (true) {
+void tambahPinjamBarangList(string id, string name, string brand, float value, int stock)
+{
+    listPinjaman *new_list, *current;
+
+    current = headPinjaman;
+    while (current != NULL)
+    {
+        if (current->id == id)
+        {
+            current->stock += stock;
+            cout << "Stok berhasil ditambah ke barang pinjaman yang sudah ada" << endl;
+            return;
+        }
+        current = current->next;
+    }
+
+    new_list = new listPinjaman();
+
+    new_list->id = id;
+    new_list->name = name;
+    new_list->brand = brand;
+    new_list->value = value;
+    new_list->stock = stock;
+
+    if (headPinjaman == NULL)
+    {
+        headPinjaman = new_list;
+        headPinjaman->next = NULL;
+    }
+    else
+    {
+        current = headPinjaman;
+        while (current->next != NULL)
+            current = current->next;
+        current->next = new_list;
+        new_list->next = NULL;
+        cout << "Barang pinjaman berhasil ditambahkan" << endl;
+    }
+}
+
+void cariBarangPinjaman()
+{
+    while (true)
+    {
+        system("cls");
+
+        cetakListPinjaman();
+
+        if (headPinjaman == NULL)
+        {
+            cout << "Tidak ada barang pinjaman yang tersedia" << endl;
+            break;
+        }
+
+        string keyword;
+        string searchId = "", searchName = "", searchBrand = "";
+        cout << endl;
+        cout << "cari barang berdasarkan kriteria berikut:" << endl;
+        cout << "1. ID Barang" << endl;
+        cout << "2. Nama Barang" << endl;
+        cout << "3. Brand" << endl;
+        cout << "4. Keluar" << endl;
+        cout << "Pilih kriteria pencarian (masukkan angka): ";
+
+        int pilihan;
+        cin >> pilihan;
+
+        if (pilihan == 1)
+        {
+            cout << endl;
+            cout << "Masukkan ID barang: ";
+            cin >> searchId;
+        }
+        else if (pilihan == 2)
+        {
+            cout << endl;
+            cout << "Masukkan Nama barang: ";
+            cin.ignore();
+            getline(cin, searchName);
+        }
+        else if (pilihan == 3)
+        {
+            cout << endl;
+            cout << "Masukkan Brand barang: ";
+            cin.ignore();
+            getline(cin, searchBrand);
+        }
+        else if (pilihan == 4)
+        {
+            cout << "Kembali ke menu utama" << endl;
+            break;
+        }
+        else
+        {
+            cout << "Pilihan tidak valid. Kembali ke menu utama.\n";
+            return;
+        }
+
+        listPinjaman *current = headPinjaman;
+        bool found = false;
+
+        cout << left
+             << setw(20) << "ID Barang"
+             << setw(20) << "Nama Barang"
+             << setw(15) << "Brand"
+             << setw(15) << "Value"
+             << setw(12) << "Stock"
+             << endl;
+
+        cout << string(82, '-') << endl;
+
+        while (current != NULL)
+        {
+            bool match = true;
+
+            if (!searchId.empty() && current->id != searchId)
+                match = false;
+            if (!searchName.empty() && toLower(current->name).find(toLower(searchName)) == string::npos)
+                match = false;
+            if (!searchBrand.empty() && toLower(current->brand).find(toLower(searchBrand)) == string::npos)
+                match = false;
+
+            if (match)
+            {
+                found = true;
+                cout << left
+                     << setw(20) << current->id
+                     << setw(20) << current->name
+                     << setw(15) << current->brand
+                     << setw(15) << fixed << setprecision(0) << current->value
+                     << setw(12) << current->stock
+                     << endl;
+            }
+
+            current = current->next;
+        }
+
+        if (!found)
+        {
+            cout << "Barang tidak ditemukan" << endl;
+        }
+
+        system("pause");
+    }
+}
+
+void lihatPinjamBarangList()
+{
+    while (true)
+    {
+        system("cls");
+
+        cetakListPinjaman();
+
+        if (headPinjaman == NULL)
+        {
+            cout << "Tidak ada barang pinjaman yang tersedia" << endl;
+            break;
+        }
+        cout << endl;
+        cout << "1. Cari barang pinjaman" << endl;
+        cout << "2. Keluar" << endl;
+        cout << "Pilih salah satu opsi (ketik dalam angka): ";
+
+        int pilihan;
+        cin >> pilihan;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Input tidak valid. Masukkan angka saja!" << endl;
+        }
+        else if (pilihan == 1)
+        {
+            cariBarangPinjaman();
+        }
+        else if (pilihan == 2)
+        {
+            cout << "Kembali ke menu utama" << endl;
+            break;
+        }
+        else
+        {
+            cout << "Pilihan tidak tersedia";
+        }
+
+        system("pause");
+    }
+}
+
+void pinjamBarang()
+{
+    while (true)
+    {
         system("cls");
         cetakList();
 
-        if (isEmpty()) {
+        if (isEmpty())
+        {
             cout << "\nTidak ada barang yang tersedia untuk dipinjam." << endl;
-            break;  
+            break;
         }
 
         string id;
         cout << "\nMasukkan ID barang yang ingin dipinjam (ketik '0' untuk keluar): ";
         cin >> id;
 
-        if (id == "0") {
+        if (id == "0")
+        {
             break;
         }
 
         list *current = head;
         bool found = false;
 
-        while (current != NULL) {
-            if (current->id == id) {
+        while (current != NULL)
+        {
+            if (current->id == id)
+            {
                 found = true;
                 break;
             }
             current = current->next;
         }
 
-        if (!found) {
+        if (!found)
+        {
             cout << "\nBarang dengan ID " << id << " tidak ditemukan. Silakan coba lagi.\n";
-            continue; 
+            continue;
         }
 
         int jumlah;
         cout << "Masukkan jumlah yang ingin dipinjam (0 untuk batal): ";
         cin >> jumlah;
 
-        if (jumlah == 0) {
+        if (jumlah == 0)
+        {
             cout << "Peminjaman dibatalkan." << endl;
             break;
-        } else if (jumlah < 0) {
+        }
+        else if (jumlah < 0)
+        {
             cout << "Jumlah tidak valid! Harus lebih dari 0.\n";
-        } else if (current->stock >= jumlah) {
+        }
+        else if (current->stock >= jumlah)
+        {
             current->stock -= jumlah;
             cout << "Berhasil meminjam " << jumlah << " " << current->name << endl;
+            tambahPinjamBarangList(current->id, current->name, current->brand, current->value, jumlah);
             cout << "Sisa stok: " << current->stock << endl;
-            break;  
-        } else {
+            break;
+        }
+        else
+        {
             cout << "Stok tidak mencukupi, stok hanya: " << current->stock;
         }
 
@@ -837,9 +1090,92 @@ void pinjamBarang() {
         cout << "\nCoba lagi? (y/n): ";
         cin >> pilihan;
 
-        if (tolower(pilihan) != 'y') {
+        if (tolower(pilihan) != 'y')
+        {
             break;
         }
+    }
+}
+
+void kembalikanBarang()
+{
+    while (true)
+    {
+        system("cls");
+        cetakListPinjaman();
+
+        if (headPinjaman == NULL)
+        {
+            cout << "\nTidak ada barang pinjaman yang tersedia untuk dikembalikan." << endl;
+            break;
+        }
+
+        string id;
+        cout << "\nMasukkan ID barang pinjaman yang ingin dikembalikan (ketik '0' untuk keluar): ";
+        cin >> id;
+
+        if (id == "0")
+        {
+            break;
+        }
+
+        list *currentList = head;
+        listPinjaman *current = headPinjaman;
+        listPinjaman *prev = NULL;
+        bool found = false;
+
+        while (current != NULL)
+        {
+            if (current->id == id)
+            {
+                found = true;
+                break;
+            }
+            prev = current;
+            current = current->next;
+        }
+
+        if (found)
+        {
+            if (current == headPinjaman)
+            {
+                while (currentList != NULL)
+                {
+                    if (currentList->id == id)
+                    {
+                        currentList->stock += current->stock;
+                        break;
+                    }
+                    currentList = currentList->next;
+                }
+                headPinjaman = headPinjaman->next;
+                delete current;
+            }
+            else
+            {
+                prev->next = current->next;
+                while (currentList != NULL)
+                {
+                    if (currentList->id == id)
+                    {
+                        currentList->stock += current->stock;
+                        break;
+                    }
+                    currentList = currentList->next;
+                }
+                prev->next = current->next;
+                delete current;
+            }
+
+            cout << endl;
+            cout << "Barang pinjaman dengan ID " << id << " berhasil dikembalikan." << endl;
+        }
+        else
+        {
+            cout << "Barang pinjaman dengan ID " << id << " tidak ditemukan." << endl;
+        }
+
+        system("pause");
     }
 }
 
@@ -874,9 +1210,10 @@ int main()
         cout << "2. Tambah barang" << endl;
         cout << "3. Edit barang" << endl;
         cout << "4. Hapus barang" << endl;
-        cout << "5. Pinjam Barang" << endl;
-        cout << "6. Kembalikan Barang" << endl;
-        cout << "7. Keluar" << endl;
+        cout << "5. Lihat barang yang dipinjam" << endl;
+        cout << "6. Pinjam barang" << endl;
+        cout << "7. Kembalikan barang" << endl;
+        cout << "8. Keluar" << endl;
         cout << "Pilih salah satu opsi (ketik dalam angka): ";
 
         int pilihan;
@@ -904,15 +1241,19 @@ int main()
         {
             hapusBarangById();
         }
-        else if (pilihan == 5) {
-            pinjamBarang();
+        else if (pilihan == 5)
+        {
+            lihatPinjamBarangList();
         }
         else if (pilihan == 6)
         {
-            cout << "Sedang Proses" << endl;
-            break;
+            pinjamBarang();
         }
         else if (pilihan == 7)
+        {
+            kembalikanBarang();
+        }
+        else if (pilihan == 8)
         {
             cout << "Berhasil keluar dari program" << endl;
             break;
