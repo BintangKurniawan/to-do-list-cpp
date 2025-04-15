@@ -813,7 +813,7 @@ void hapusBarangById()
         }
         else
         {
-            // Hapus node di tengah atau akhir
+            // Hapus data di tengah atau akhir
             prev->next = current->next;
             delete current;
         }
