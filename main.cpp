@@ -785,57 +785,68 @@ void editList()
 }
 void hapusBarangById()
 {
-    system("cls");
-    cetakList();
-
-    if (isEmpty())
+    while (true)
     {
-        cout << "\nTidak ada barang untuk dihapus. " << endl;
-        return;
-    }
 
-    string id;
-    cout << "\nMasukkan ID barang yang ingin dihapus: ";
-    cin >> id;
+        system("cls");
+        cetakList();
 
-    list *current = head;
-    list *prev = NULL;
-    bool found = false;
-
-    while (current != NULL)
-    {
-        if (current->id == id)
+        if (isEmpty())
         {
-            found = true;
+            cout << "\nTidak ada barang untuk dihapus. " << endl;
+            return;
+        }
+
+        string id;
+        cout << "\nMasukkan ID barang yang ingin dihapus, 0 untuk kembali: ";
+        cin >> id;
+
+        if (id == "0")
+        {
             break;
         }
-        prev = current;
-        current = current->next;
-    }
 
-    if (found)
-    {
-        // Jika data di awal list
-        if (current == head)
+        list *current = head;
+        list *prev = NULL;
+        bool found = false;
+
+        while (current != NULL)
         {
-            head = head->next;
-            delete current;
+            if (current->id == id)
+            {
+                found = true;
+                break;
+            }
+            prev = current;
+            current = current->next;
+        }
+
+        if (found)
+        {
+            // Jika data di awal list
+            if (current == head)
+            {
+                head = head->next;
+                delete current;
+            }
+            else
+            {
+                // Hapus data di tengah atau akhir
+                prev->next = current->next;
+                delete current;
+            }
+
+            cetakList();
+            cout << endl;
+            cout << "Barang dengan ID " << id << " berhasil dihapus." << endl;
         }
         else
         {
-            // Hapus data di tengah atau akhir
-            prev->next = current->next;
-            delete current;
+            cout << endl;
+            cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
         }
 
-        cetakList();
-        cout << endl;
-        cout << "Barang dengan ID " << id << " berhasil dihapus." << endl;
-    }
-    else
-    {
-        cout << endl;
-        cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
+        system("pause");
     }
 }
 
@@ -1146,8 +1157,16 @@ void kembalikanBarang()
             }
             else
             {
-                insertLast(current->id, current->name, current->brand, current->value, current->category, current->status, current->condition, current->stock);
-                break;
+                if (current->id == id)
+                {
+                    insertLast(current->id, current->name, current->brand, current->value, current->category, current->status, current->condition, current->stock);
+                    cout << current->stock << endl;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
@@ -1170,7 +1189,7 @@ void kembalikanBarang()
                 {
                     if (currentList->id == id)
                     {
-                        currentList->stock += current->stock;
+                        // currentList->stock += current->stock;
                         break;
                     }
                     currentList = currentList->next;
