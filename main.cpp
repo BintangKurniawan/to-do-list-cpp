@@ -12,6 +12,9 @@ struct listPinjaman
     string name;
     string brand;
     float value;
+    string category;
+    string status;
+    string condition;
     int stock;
     listPinjaman *next;
 };
@@ -44,7 +47,7 @@ bool isEmpty()
     return false;
 }
 
-void insertLast(string name, string brand, float value, string category, string status, string condition, int stock)
+void insertLast(string id, string name, string brand, float value, string category, string status, string condition, int stock)
 {
     list *new_list, *current;
 
@@ -63,8 +66,15 @@ void insertLast(string name, string brand, float value, string category, string 
 
     new_list = new list();
 
-    new_list->id = "ID" + to_string(idCounter);
-    idCounter++;
+    if (id.empty())
+    {
+        new_list->id = "ID" + to_string(idCounter);
+        idCounter++;
+    }
+    else
+    {
+        new_list->id = id;
+    }
 
     new_list->name = name;
     new_list->brand = brand;
@@ -520,7 +530,7 @@ void tambahList()
         int stock;
         cin >> stock;
 
-        insertLast(name, barang, value, category, status, condition, stock);
+        insertLast("", name, barang, value, category, status, condition, stock);
 
         cout << "1. Menambah list lagi" << endl;
         cout << "2. Keluar" << endl;
@@ -829,7 +839,7 @@ void hapusBarangById()
     }
 }
 
-void tambahPinjamBarangList(string id, string name, string brand, float value, int stock)
+void tambahPinjamBarangList(string id, string name, string brand, float value, string category, string status, string condition, int stock)
 {
     listPinjaman *new_list, *current;
 
@@ -852,6 +862,9 @@ void tambahPinjamBarangList(string id, string name, string brand, float value, i
     new_list->brand = brand;
     new_list->value = value;
     new_list->stock = stock;
+    new_list->category = category;
+    new_list->status = status;
+    new_list->condition = condition;
 
     if (headPinjaman == NULL)
     {
@@ -1078,7 +1091,7 @@ void pinjamBarang()
         {
             current->stock -= jumlah;
             cout << "Berhasil meminjam " << jumlah << " " << current->name << endl;
-            tambahPinjamBarangList(current->id, current->name, current->brand, current->value, jumlah);
+            tambahPinjamBarangList(current->id, current->name, current->brand, current->value, current->category, current->status, current->condition, jumlah);
             cout << "Sisa stok: " << current->stock << endl;
             break;
         }
@@ -1124,6 +1137,19 @@ void kembalikanBarang()
         listPinjaman *current = headPinjaman;
         listPinjaman *prev = NULL;
         bool found = false;
+
+        while (currentList != NULL)
+        {
+            if (currentList->id == id)
+            {
+                continue;
+            }
+            else
+            {
+                insertLast(current->id, current->name, current->brand, current->value, current->category, current->status, current->condition, current->stock);
+                break;
+            }
+        }
 
         while (current != NULL)
         {
@@ -1182,25 +1208,25 @@ void kembalikanBarang()
 
 int main()
 {
-    insertLast("Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
-    insertLast("Flashdisk", "Transcend", 280000, "Aksesoris", "Bekas", "Baik", 20);
-    insertLast("Monitor", "BenQ", 4200000, "Elektronik", "Bekas", "Baik", 10);
+    insertLast("", "Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
+    insertLast("", "Flashdisk", "Transcend", 280000, "Aksesoris", "Bekas", "Baik", 20);
+    insertLast("", "Monitor", "BenQ", 4200000, "Elektronik", "Bekas", "Baik", 10);
 
-    insertLast("Laptop", "HP", 7500000, "Elektronik", "Bekas", "Baik", 5);
-    insertLast("Flashdisk", "Kingston", 250000, "Aksesoris", "Baru", "Sempurna", 50);
-    insertLast("Keyboard", "Corsair", 1600000, "Aksesoris", "Baru", "Bagus", 15);
+    insertLast("", "Laptop", "HP", 7500000, "Elektronik", "Bekas", "Baik", 5);
+    insertLast("", "Flashdisk", "Kingston", 250000, "Aksesoris", "Baru", "Sempurna", 50);
+    insertLast("", "Keyboard", "Corsair", 1600000, "Aksesoris", "Baru", "Bagus", 15);
 
-    insertLast("Laptop", "Asus", 8000000, "Elektronik", "Baru", "Bagus", 10);
-    insertLast("Mouse", "Razer", 350000, "Aksesoris", "Baru", "Sempurna", 7);
-    insertLast("Keyboard", "Logitech", 1400000, "Aksesoris", "Bekas", "Baik", 25);
+    insertLast("", "Laptop", "Asus", 8000000, "Elektronik", "Baru", "Bagus", 10);
+    insertLast("", "Mouse", "Razer", 350000, "Aksesoris", "Baru", "Sempurna", 7);
+    insertLast("", "Keyboard", "Logitech", 1400000, "Aksesoris", "Bekas", "Baik", 25);
 
-    insertLast("Monitor", "Samsung", 4000000, "Elektronik", "Baru", "Bagus", 15);
-    insertLast("Laptop", "Dell", 8500000, "Elektronik", "Baru", "Sempurna", 8);
-    insertLast("Keyboard", "Razer", 1500000, "Aksesoris", "Baru", "Sempurna", 20);
+    insertLast("", "Monitor", "Samsung", 4000000, "Elektronik", "Baru", "Bagus", 15);
+    insertLast("", "Laptop", "Dell", 8500000, "Elektronik", "Baru", "Sempurna", 8);
+    insertLast("", "Keyboard", "Razer", 1500000, "Aksesoris", "Baru", "Sempurna", 20);
 
-    insertLast("Flashdisk", "Sandisk", 300000, "Aksesoris", "Baru", "Bagus", 30);
-    insertLast("Monitor", "LG", 4500000, "Elektronik", "Baru", "Sempurna", 12);
-    insertLast("Mouse", "SteelSeries", 400000, "Aksesoris", "Baru", "Bagus", 10);
+    insertLast("", "Flashdisk", "Sandisk", 300000, "Aksesoris", "Baru", "Bagus", 30);
+    insertLast("", "Monitor", "LG", 4500000, "Elektronik", "Baru", "Sempurna", 12);
+    insertLast("", "Mouse", "SteelSeries", 400000, "Aksesoris", "Baru", "Bagus", 10);
 
     while (true)
     {
