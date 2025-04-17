@@ -211,48 +211,48 @@ void cariBarang()
 
         if (pilihan == 1)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan ID Barang: ";
             cin >> searchId;
         }
         else if (pilihan == 2)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Nama Barang: ";
             cin.ignore();
             getline(cin, searchName);
         }
         else if (pilihan == 3)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Kategori Barang: ";
             cin.ignore();
             getline(cin, searchCategory);
         }
         else if (pilihan == 4)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Status Barang: ";
             cin.ignore();
             getline(cin, searchStatus);
         }
         else if (pilihan == 5)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Kondisi Barang: ";
             cin.ignore();
             getline(cin, searchCondition);
         }
         else if (pilihan == 6)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Brand Barang: ";
             cin.ignore();
             getline(cin, searchBrand);
         }
         else if (pilihan == 7)
         {
-            cout << endl;
+            system("cls");
             cin.ignore();
             cout << "Masukkan Nama Barang (Kosongkan jika tidak dicari): ";
             getline(cin, searchName);
@@ -279,6 +279,7 @@ void cariBarang()
         list *current = head;
         bool found = false;
 
+        system("cls");
         cout << left
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
