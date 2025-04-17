@@ -6,6 +6,15 @@
 
 using namespace std;
 
+string toLower(string str)
+{
+    for (char &c : str)
+    {
+        c = tolower(c);
+    }
+    return str;
+}
+
 struct listPinjaman
 {
     string id;
@@ -54,7 +63,12 @@ void insertLast(string id, string name, string brand, float price, string catego
     current = head;
     while (current != NULL)
     {
-        if (current->name == name && current->brand == brand)
+        if (toLower(current->name) == toLower(name) &&
+            toLower(current->brand) == toLower(brand) &&
+            toLower(current->category) == toLower(category) &&
+            toLower(current->status) == toLower(status) &&
+            toLower(current->condition) == toLower(condition) &&
+            current->price == price)
         {
             current->stock += stock;
             cout << "Stok berhasil ditambah ke barang yang sudah ada" << endl;
@@ -173,15 +187,6 @@ void cetakListPinjaman()
     {
         cout << "Barang pinjaman kosong." << endl;
     }
-}
-
-string toLower(string str)
-{
-    for (char &c : str)
-    {
-        c = tolower(c);
-    }
-    return str;
 }
 
 void cariBarang()
@@ -519,13 +524,40 @@ void tambahList()
         string category;
         getline(cin, category);
 
+        if (!category.empty())
+        {
+            category[0] = toupper(category[0]);
+            for (int i = 1; i < category.length(); i++)
+            {
+                category[i] = tolower(category[i]);
+            }
+        }
+
         cout << "Masukkan status barang: ";
         string status;
         getline(cin, status);
 
+        if (!status.empty())
+        {
+            status[0] = toupper(status[0]);
+            for (int i = 1; i < status.length(); i++)
+            {
+                status[i] = tolower(status[i]);
+            }
+        }
+
         cout << "Masukkan kondisi barang: ";
         string condition;
         getline(cin, condition);
+
+        if (!condition.empty())
+        {
+            condition[0] = toupper(condition[0]);
+            for (int i = 1; i < condition.length(); i++)
+            {
+                condition[i] = tolower(condition[i]);
+            }
+        }
 
         cout << "Masukkan stock barang: ";
         int stock;
@@ -533,20 +565,28 @@ void tambahList()
 
         insertLast("", name, barang, price, category, status, condition, stock);
 
-        cout << "1. Menambah list lagi" << endl;
-        cout << "2. Keluar" << endl;
-        cout << "Pilih salah satu opsi (ketik dalam angka): ";
-
         int pilihan;
-        cin >> pilihan;
-
-        if (cin.fail())
+        while (true)
         {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Input tidak valid. Masukkan angka saja!" << endl;
+            cout << "1. Menambah list lagi" << endl;
+            cout << "2. Keluar" << endl;
+            cout << "Pilih salah satu opsi (ketik dalam angka): ";
+            cin >> pilihan;
+
+            if (cin.fail() || (pilihan != 1 && pilihan != 2))
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                system("cls");
+                cout << "Pilihan tidak valid! Harap masukkan angka 1 atau 2." << endl;
+            }
+            else
+            {
+                break;
+            }
         }
-        else if (pilihan == 2)
+
+        if (pilihan == 2)
         {
             break;
         }
