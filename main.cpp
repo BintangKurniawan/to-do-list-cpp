@@ -642,6 +642,7 @@ void editList()
     string id, name, brand, category, status, condition;
     float price;
     int stock;
+    system("cls");
     cetakList();
     cout << endl;
     list *current = head;
@@ -670,6 +671,7 @@ void editList()
         }
         else
         {
+            system("cls");
             cetakbyId(id);
             break;
         }
@@ -711,6 +713,8 @@ void editList()
 
                     cin >> name;
                     current->name = name;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -727,6 +731,8 @@ void editList()
 
                     cin >> brand;
                     current->brand = brand;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -743,6 +749,8 @@ void editList()
 
                     cin >> price;
                     current->price = price;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -759,6 +767,8 @@ void editList()
 
                     cin >> category;
                     current->category = category;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -774,6 +784,8 @@ void editList()
                     cout << "Masukkan Status Barang: ";
                     cin >> status;
                     current->status = status;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -787,9 +799,10 @@ void editList()
                 if (current->id == id)
                 {
                     cout << "Masukkan kondisi Barang: ";
-
                     cin >> condition;
                     current->condition = condition;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -803,9 +816,10 @@ void editList()
                 if (current->id == id)
                 {
                     cout << "Masukkan Stock Barang: ";
-
                     cin >> stock;
                     current->stock = stock;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -819,9 +833,11 @@ void editList()
         }
         else
         {
+            system("cls");
+            cetakbyId(id);
             cout << "Pilihan tidak tersedia" << endl;
         }
-        cout << "Data berhasil di edit" << endl;
+        
     }
 }
 void hapusBarangById()
