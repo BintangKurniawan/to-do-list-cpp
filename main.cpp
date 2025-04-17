@@ -11,7 +11,7 @@ struct listPinjaman
     string id;
     string name;
     string brand;
-    float value;
+    float price;
     string category;
     string status;
     string condition;
@@ -27,7 +27,7 @@ struct list
     string id;
     string name;
     string brand;
-    float value;
+    float price;
     string category;
     string status;
     string condition;
@@ -47,7 +47,7 @@ bool isEmpty()
     return false;
 }
 
-void insertLast(string id, string name, string brand, float value, string category, string status, string condition, int stock)
+void insertLast(string id, string name, string brand, float price, string category, string status, string condition, int stock)
 {
     list *new_list, *current;
 
@@ -78,7 +78,7 @@ void insertLast(string id, string name, string brand, float value, string catego
 
     new_list->name = name;
     new_list->brand = brand;
-    new_list->value = value;
+    new_list->price = price;
     new_list->category = category;
     new_list->status = status;
     new_list->condition = condition;
@@ -111,7 +111,7 @@ void cetakList()
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
-             << setw(15) << "Value"
+             << setw(15) << "Price"
              << setw(20) << "Category"
              << setw(12) << "Status"
              << setw(12) << "Condition"
@@ -125,7 +125,7 @@ void cetakList()
                  << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
-                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(15) << fixed << setprecision(0) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
                  << setw(12) << current->condition
@@ -151,7 +151,7 @@ void cetakListPinjaman()
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
-             << setw(15) << "Value"
+             << setw(15) << "Price"
              << setw(12) << "Stock"
              << endl;
 
@@ -162,7 +162,7 @@ void cetakListPinjaman()
                  << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
-                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(15) << fixed << setprecision(0) << current->price
                  << setw(12) << current->stock
                  << endl;
 
@@ -284,7 +284,7 @@ void cariBarang()
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
-             << setw(15) << "Value"
+             << setw(15) << "Price"
              << setw(20) << "Category"
              << setw(12) << "Status"
              << setw(12) << "Condition"
@@ -317,7 +317,7 @@ void cariBarang()
                      << setw(20) << current->id
                      << setw(20) << current->name
                      << setw(15) << current->brand
-                     << setw(15) << fixed << setprecision(0) << current->value
+                     << setw(15) << fixed << setprecision(0) << current->price
                      << setw(20) << current->category
                      << setw(12) << current->status
                      << setw(12) << current->condition
@@ -355,7 +355,7 @@ void filterStockKosong()
          << setw(20) << "ID Barang"
          << setw(20) << "Nama Barang"
          << setw(15) << "Brand"
-         << setw(15) << "Value"
+         << setw(15) << "Price"
          << setw(20) << "Category"
          << setw(12) << "Status"
          << setw(12) << "Condition"
@@ -373,7 +373,7 @@ void filterStockKosong()
                  << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
-                 << setw(15) << current->value
+                 << setw(15) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
                  << setw(12) << current->condition
@@ -411,7 +411,7 @@ void sort(bool descending)
                 swap(i->id, j->id);
                 swap(i->name, j->name);
                 swap(i->brand, j->brand);
-                swap(i->value, j->value);
+                swap(i->price, j->price);
                 swap(i->category, j->category);
                 swap(i->status, j->status);
                 swap(i->condition, j->condition);
@@ -510,9 +510,9 @@ void tambahList()
             }
         }
 
-        cout << "Masukkan value barang: ";
-        float value;
-        cin >> value;
+        cout << "Masukkan harga barang: ";
+        float price;
+        cin >> price;
 
         cin.ignore();
         cout << "Masukkan category barang: ";
@@ -531,7 +531,7 @@ void tambahList()
         int stock;
         cin >> stock;
 
-        insertLast("", name, barang, value, category, status, condition, stock);
+        insertLast("", name, barang, price, category, status, condition, stock);
 
         cout << "1. Menambah list lagi" << endl;
         cout << "2. Keluar" << endl;
@@ -568,7 +568,7 @@ void cetakbyId(string id)
                  << setw(20) << "ID Barang"
                  << setw(20) << "Nama Barang"
                  << setw(15) << "Brand"
-                 << setw(15) << "Value"
+                 << setw(15) << "Price"
                  << setw(20) << "Category"
                  << setw(12) << "Status"
                  << setw(12) << "Condition"
@@ -581,7 +581,7 @@ void cetakbyId(string id)
                  << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
-                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(15) << fixed << setprecision(0) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
                  << setw(12) << current->condition
@@ -600,7 +600,7 @@ void cetakbyId(string id)
 void editList()
 {
     string id, name, brand, category, status, condition;
-    float value;
+    float price;
     int stock;
     cetakList();
     cout << endl;
@@ -643,7 +643,7 @@ void editList()
         cout << "========Pilih data yang ingin diedit========" << endl;
         cout << "1. Nama barang" << endl;
         cout << "2. Brand " << endl;
-        cout << "3. Value" << endl;
+        cout << "3. Price" << endl;
         cout << "4. Category" << endl;
         cout << "5. Status" << endl;
         cout << "6. Condition" << endl;
@@ -699,10 +699,10 @@ void editList()
             {
                 if (current->id == id)
                 {
-                    cout << "Masukkan Value Barang: ";
+                    cout << "Masukkan Harga Barang: ";
 
-                    cin >> value;
-                    current->value = value;
+                    cin >> price;
+                    current->price = price;
                     cetakbyId(id);
                     break;
                 }
@@ -851,7 +851,7 @@ void hapusBarangById()
     }
 }
 
-void tambahPinjamBarangList(string id, string name, string brand, float value, string category, string status, string condition, int stock)
+void tambahPinjamBarangList(string id, string name, string brand, float price, string category, string status, string condition, int stock)
 {
     listPinjaman *new_list, *current;
 
@@ -872,7 +872,7 @@ void tambahPinjamBarangList(string id, string name, string brand, float value, s
     new_list->id = id;
     new_list->name = name;
     new_list->brand = brand;
-    new_list->value = value;
+    new_list->price = price;
     new_list->stock = stock;
     new_list->category = category;
     new_list->status = status;
@@ -959,7 +959,7 @@ void cariBarangPinjaman()
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
-             << setw(15) << "Value"
+             << setw(15) << "Price"
              << setw(12) << "Stock"
              << endl;
 
@@ -983,7 +983,7 @@ void cariBarangPinjaman()
                      << setw(20) << current->id
                      << setw(20) << current->name
                      << setw(15) << current->brand
-                     << setw(15) << fixed << setprecision(0) << current->value
+                     << setw(15) << fixed << setprecision(0) << current->price
                      << setw(12) << current->stock
                      << endl;
             }
@@ -1103,7 +1103,7 @@ void pinjamBarang()
         {
             current->stock -= jumlah;
             cout << "Berhasil meminjam " << jumlah << " " << current->name << endl;
-            tambahPinjamBarangList(current->id, current->name, current->brand, current->value, current->category, current->status, current->condition, jumlah);
+            tambahPinjamBarangList(current->id, current->name, current->brand, current->price, current->category, current->status, current->condition, jumlah);
             cout << "Sisa stok: " << current->stock << endl;
             break;
         }
@@ -1160,7 +1160,7 @@ void kembalikanBarang()
             {
                 if (current->id == id)
                 {
-                    insertLast(current->id, current->name, current->brand, current->value, current->category, current->status, current->condition, current->stock);
+                    insertLast(current->id, current->name, current->brand, current->price, current->category, current->status, current->condition, current->stock);
                     cout << current->stock << endl;
                     break;
                 }
