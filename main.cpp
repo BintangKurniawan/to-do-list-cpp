@@ -6,12 +6,24 @@
 
 using namespace std;
 
+string toLower(string str)
+{
+    for (char &c : str)
+    {
+        c = tolower(c);
+    }
+    return str;
+}
+
 struct listPinjaman
 {
     string id;
     string name;
     string brand;
-    float value;
+    float price;
+    string category;
+    string status;
+    string condition;
     int stock;
     listPinjaman *next;
 };
@@ -24,7 +36,7 @@ struct list
     string id;
     string name;
     string brand;
-    float value;
+    float price;
     string category;
     string status;
     string condition;
@@ -44,14 +56,19 @@ bool isEmpty()
     return false;
 }
 
-void insertLast(string name, string brand, float value, string category, string status, string condition, int stock)
+void insertLast(string id, string name, string brand, float price, string category, string status, string condition, int stock)
 {
     list *new_list, *current;
 
     current = head;
     while (current != NULL)
     {
-        if (current->name == name && current->brand == brand)
+        if (toLower(current->name) == toLower(name) &&
+            toLower(current->brand) == toLower(brand) &&
+            toLower(current->category) == toLower(category) &&
+            toLower(current->status) == toLower(status) &&
+            toLower(current->condition) == toLower(condition) &&
+            current->price == price)
         {
             current->stock += stock;
             cout << "Stok berhasil ditambah ke barang yang sudah ada" << endl;
@@ -63,12 +80,19 @@ void insertLast(string name, string brand, float value, string category, string 
 
     new_list = new list();
 
-    new_list->id = "ID" + to_string(idCounter);
-    idCounter++;
+    if (id.empty())
+    {
+        new_list->id = "ID" + to_string(idCounter);
+        idCounter++;
+    }
+    else
+    {
+        new_list->id = id;
+    }
 
     new_list->name = name;
     new_list->brand = brand;
-    new_list->value = value;
+    new_list->price = price;
     new_list->category = category;
     new_list->status = status;
     new_list->condition = condition;
@@ -101,7 +125,7 @@ void cetakList()
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
-             << setw(15) << "Value"
+             << setw(15) << "Price"
              << setw(20) << "Category"
              << setw(12) << "Status"
              << setw(12) << "Condition"
@@ -115,7 +139,7 @@ void cetakList()
                  << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
-                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(15) << fixed << setprecision(0) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
                  << setw(12) << current->condition
@@ -141,7 +165,7 @@ void cetakListPinjaman()
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
-             << setw(15) << "Value"
+             << setw(15) << "Price"
              << setw(12) << "Stock"
              << endl;
 
@@ -152,7 +176,7 @@ void cetakListPinjaman()
                  << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
-                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(15) << fixed << setprecision(0) << current->price
                  << setw(12) << current->stock
                  << endl;
 
@@ -163,15 +187,6 @@ void cetakListPinjaman()
     {
         cout << "Barang pinjaman kosong." << endl;
     }
-}
-
-string toLower(string str)
-{
-    for (char &c : str)
-    {
-        c = tolower(c);
-    }
-    return str;
 }
 
 void cariBarang()
@@ -201,48 +216,48 @@ void cariBarang()
 
         if (pilihan == 1)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan ID Barang: ";
             cin >> searchId;
         }
         else if (pilihan == 2)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Nama Barang: ";
             cin.ignore();
             getline(cin, searchName);
         }
         else if (pilihan == 3)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Kategori Barang: ";
             cin.ignore();
             getline(cin, searchCategory);
         }
         else if (pilihan == 4)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Status Barang: ";
             cin.ignore();
             getline(cin, searchStatus);
         }
         else if (pilihan == 5)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Kondisi Barang: ";
             cin.ignore();
             getline(cin, searchCondition);
         }
         else if (pilihan == 6)
         {
-            cout << endl;
+            system("cls");
             cout << "Masukkan Brand Barang: ";
             cin.ignore();
             getline(cin, searchBrand);
         }
         else if (pilihan == 7)
         {
-            cout << endl;
+            system("cls");
             cin.ignore();
             cout << "Masukkan Nama Barang (Kosongkan jika tidak dicari): ";
             getline(cin, searchName);
@@ -269,11 +284,12 @@ void cariBarang()
         list *current = head;
         bool found = false;
 
+        system("cls");
         cout << left
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
-             << setw(15) << "Value"
+             << setw(15) << "Price"
              << setw(20) << "Category"
              << setw(12) << "Status"
              << setw(12) << "Condition"
@@ -306,7 +322,7 @@ void cariBarang()
                      << setw(20) << current->id
                      << setw(20) << current->name
                      << setw(15) << current->brand
-                     << setw(15) << fixed << setprecision(0) << current->value
+                     << setw(15) << fixed << setprecision(0) << current->price
                      << setw(20) << current->category
                      << setw(12) << current->status
                      << setw(12) << current->condition
@@ -344,7 +360,7 @@ void filterStockKosong()
          << setw(20) << "ID Barang"
          << setw(20) << "Nama Barang"
          << setw(15) << "Brand"
-         << setw(15) << "Value"
+         << setw(15) << "Price"
          << setw(20) << "Category"
          << setw(12) << "Status"
          << setw(12) << "Condition"
@@ -362,7 +378,7 @@ void filterStockKosong()
                  << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
-                 << setw(15) << current->value
+                 << setw(15) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
                  << setw(12) << current->condition
@@ -400,7 +416,7 @@ void sort(bool descending)
                 swap(i->id, j->id);
                 swap(i->name, j->name);
                 swap(i->brand, j->brand);
-                swap(i->value, j->value);
+                swap(i->price, j->price);
                 swap(i->category, j->category);
                 swap(i->status, j->status);
                 swap(i->condition, j->condition);
@@ -499,43 +515,78 @@ void tambahList()
             }
         }
 
-        cout << "Masukkan value barang: ";
-        float value;
-        cin >> value;
+        cout << "Masukkan harga barang: ";
+        float price;
+        cin >> price;
 
         cin.ignore();
         cout << "Masukkan category barang: ";
         string category;
         getline(cin, category);
 
+        if (!category.empty())
+        {
+            category[0] = toupper(category[0]);
+            for (int i = 1; i < category.length(); i++)
+            {
+                category[i] = tolower(category[i]);
+            }
+        }
+
         cout << "Masukkan status barang: ";
         string status;
         getline(cin, status);
+
+        if (!status.empty())
+        {
+            status[0] = toupper(status[0]);
+            for (int i = 1; i < status.length(); i++)
+            {
+                status[i] = tolower(status[i]);
+            }
+        }
 
         cout << "Masukkan kondisi barang: ";
         string condition;
         getline(cin, condition);
 
+        if (!condition.empty())
+        {
+            condition[0] = toupper(condition[0]);
+            for (int i = 1; i < condition.length(); i++)
+            {
+                condition[i] = tolower(condition[i]);
+            }
+        }
+
         cout << "Masukkan stock barang: ";
         int stock;
         cin >> stock;
 
-        insertLast(name, barang, value, category, status, condition, stock);
-
-        cout << "1. Menambah list lagi" << endl;
-        cout << "2. Keluar" << endl;
-        cout << "Pilih salah satu opsi (ketik dalam angka): ";
+        insertLast("", name, barang, price, category, status, condition, stock);
 
         int pilihan;
-        cin >> pilihan;
-
-        if (cin.fail())
+        while (true)
         {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Input tidak valid. Masukkan angka saja!" << endl;
+            cout << "1. Menambah list lagi" << endl;
+            cout << "2. Keluar" << endl;
+            cout << "Pilih salah satu opsi (ketik dalam angka): ";
+            cin >> pilihan;
+
+            if (cin.fail() || (pilihan != 1 && pilihan != 2))
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                system("cls");
+                cout << "Pilihan tidak valid! Harap masukkan angka 1 atau 2." << endl;
+            }
+            else
+            {
+                break;
+            }
         }
-        else if (pilihan == 2)
+
+        if (pilihan == 2)
         {
             break;
         }
@@ -557,7 +608,7 @@ void cetakbyId(string id)
                  << setw(20) << "ID Barang"
                  << setw(20) << "Nama Barang"
                  << setw(15) << "Brand"
-                 << setw(15) << "Value"
+                 << setw(15) << "Price"
                  << setw(20) << "Category"
                  << setw(12) << "Status"
                  << setw(12) << "Condition"
@@ -570,7 +621,7 @@ void cetakbyId(string id)
                  << setw(20) << current->id
                  << setw(20) << current->name
                  << setw(15) << current->brand
-                 << setw(15) << fixed << setprecision(0) << current->value
+                 << setw(15) << fixed << setprecision(0) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
                  << setw(12) << current->condition
@@ -588,8 +639,9 @@ void cetakbyId(string id)
 }
 void editList()
 {
+    system("cls");
     string id, name, brand, category, status, condition;
-    float value;
+    float price;
     int stock;
     cetakList();
     cout << endl;
@@ -600,6 +652,7 @@ void editList()
         cout << "Masukkan ID barang yang akan diedit: ";
         cin >> id;
 
+        system("cls");
         current = head;
         bool found = false;
 
@@ -632,7 +685,7 @@ void editList()
         cout << "========Pilih data yang ingin diedit========" << endl;
         cout << "1. Nama barang" << endl;
         cout << "2. Brand " << endl;
-        cout << "3. Value" << endl;
+        cout << "3. Price" << endl;
         cout << "4. Category" << endl;
         cout << "5. Status" << endl;
         cout << "6. Condition" << endl;
@@ -660,6 +713,8 @@ void editList()
 
                     cin >> name;
                     current->name = name;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -676,6 +731,8 @@ void editList()
 
                     cin >> brand;
                     current->brand = brand;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -688,10 +745,12 @@ void editList()
             {
                 if (current->id == id)
                 {
-                    cout << "Masukkan Value Barang: ";
+                    cout << "Masukkan Harga Barang: ";
 
-                    cin >> value;
-                    current->value = value;
+                    cin >> price;
+                    current->price = price;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -708,6 +767,8 @@ void editList()
 
                     cin >> category;
                     current->category = category;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -723,6 +784,8 @@ void editList()
                     cout << "Masukkan Status Barang: ";
                     cin >> status;
                     current->status = status;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -739,6 +802,8 @@ void editList()
 
                     cin >> condition;
                     current->condition = condition;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -755,6 +820,8 @@ void editList()
 
                     cin >> stock;
                     current->stock = stock;
+                    system("cls");
+                    cout << "Data berhasil di edit" << endl;
                     cetakbyId(id);
                     break;
                 }
@@ -768,68 +835,79 @@ void editList()
         }
         else
         {
+            system("cls");
             cout << "Pilihan tidak tersedia" << endl;
         }
-        cout << "Data berhasil di edit" << endl;
     }
 }
 void hapusBarangById()
 {
-    system("cls");
-    cetakList();
-
-    if (isEmpty())
+    while (true)
     {
-        cout << "\nTidak ada barang untuk dihapus. " << endl;
-        return;
-    }
 
-    string id;
-    cout << "\nMasukkan ID barang yang ingin dihapus: ";
-    cin >> id;
+        system("cls");
+        cetakList();
 
-    list *current = head;
-    list *prev = NULL;
-    bool found = false;
-
-    while (current != NULL)
-    {
-        if (current->id == id)
+        if (isEmpty())
         {
-            found = true;
+            cout << "\nTidak ada barang untuk dihapus. " << endl;
+            return;
+        }
+
+        string id;
+        cout << "\nMasukkan ID barang yang ingin dihapus, 0 untuk kembali: ";
+        cin >> id;
+
+        if (id == "0")
+        {
             break;
         }
-        prev = current;
-        current = current->next;
-    }
 
-    if (found)
-    {
-        // Jika data di awal list
-        if (current == head)
+        list *current = head;
+        list *prev = NULL;
+        bool found = false;
+
+        while (current != NULL)
         {
-            head = head->next;
-            delete current;
+            if (current->id == id)
+            {
+                found = true;
+                break;
+            }
+            prev = current;
+            current = current->next;
+        }
+
+        if (found)
+        {
+            // Jika data di awal list
+            if (current == head)
+            {
+                head = head->next;
+                delete current;
+            }
+            else
+            {
+                // Hapus data di tengah atau akhir
+                prev->next = current->next;
+                delete current;
+            }
+
+            cetakList();
+            cout << endl;
+            cout << "Barang dengan ID " << id << " berhasil dihapus." << endl;
         }
         else
         {
-            // Hapus data di tengah atau akhir
-            prev->next = current->next;
-            delete current;
+            cout << endl;
+            cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
         }
 
-        cetakList();
-        cout << endl;
-        cout << "Barang dengan ID " << id << " berhasil dihapus." << endl;
-    }
-    else
-    {
-        cout << endl;
-        cout << "Barang dengan ID " << id << " tidak ditemukan." << endl;
+        system("pause");
     }
 }
 
-void tambahPinjamBarangList(string id, string name, string brand, float value, int stock)
+void tambahPinjamBarangList(string id, string name, string brand, float price, string category, string status, string condition, int stock)
 {
     listPinjaman *new_list, *current;
 
@@ -850,8 +928,11 @@ void tambahPinjamBarangList(string id, string name, string brand, float value, i
     new_list->id = id;
     new_list->name = name;
     new_list->brand = brand;
-    new_list->value = value;
+    new_list->price = price;
     new_list->stock = stock;
+    new_list->category = category;
+    new_list->status = status;
+    new_list->condition = condition;
 
     if (headPinjaman == NULL)
     {
@@ -934,7 +1015,7 @@ void cariBarangPinjaman()
              << setw(20) << "ID Barang"
              << setw(20) << "Nama Barang"
              << setw(15) << "Brand"
-             << setw(15) << "Value"
+             << setw(15) << "Price"
              << setw(12) << "Stock"
              << endl;
 
@@ -958,7 +1039,7 @@ void cariBarangPinjaman()
                      << setw(20) << current->id
                      << setw(20) << current->name
                      << setw(15) << current->brand
-                     << setw(15) << fixed << setprecision(0) << current->value
+                     << setw(15) << fixed << setprecision(0) << current->price
                      << setw(12) << current->stock
                      << endl;
             }
@@ -1078,7 +1159,7 @@ void pinjamBarang()
         {
             current->stock -= jumlah;
             cout << "Berhasil meminjam " << jumlah << " " << current->name << endl;
-            tambahPinjamBarangList(current->id, current->name, current->brand, current->value, jumlah);
+            tambahPinjamBarangList(current->id, current->name, current->brand, current->price, current->category, current->status, current->condition, jumlah);
             cout << "Sisa stok: " << current->stock << endl;
             break;
         }
@@ -1125,6 +1206,27 @@ void kembalikanBarang()
         listPinjaman *prev = NULL;
         bool found = false;
 
+        while (currentList != NULL)
+        {
+            if (currentList->id == id)
+            {
+                continue;
+            }
+            else
+            {
+                if (current->id == id)
+                {
+                    insertLast(current->id, current->name, current->brand, current->price, current->category, current->status, current->condition, current->stock);
+                    cout << current->stock << endl;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
         while (current != NULL)
         {
             if (current->id == id)
@@ -1144,7 +1246,7 @@ void kembalikanBarang()
                 {
                     if (currentList->id == id)
                     {
-                        currentList->stock += current->stock;
+                        // currentList->stock += current->stock;
                         break;
                     }
                     currentList = currentList->next;
@@ -1182,25 +1284,25 @@ void kembalikanBarang()
 
 int main()
 {
-    insertLast("Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
-    insertLast("Flashdisk", "Transcend", 280000, "Aksesoris", "Bekas", "Baik", 20);
-    insertLast("Monitor", "BenQ", 4200000, "Elektronik", "Bekas", "Baik", 10);
+    insertLast("", "Mouse", "Logitech", 300000, "Aksesoris", "Bekas", "Baik", 5);
+    insertLast("", "Flashdisk", "Transcend", 280000, "Aksesoris", "Bekas", "Baik", 20);
+    insertLast("", "Monitor", "BenQ", 4200000, "Elektronik", "Bekas", "Baik", 10);
 
-    insertLast("Laptop", "HP", 7500000, "Elektronik", "Bekas", "Baik", 5);
-    insertLast("Flashdisk", "Kingston", 250000, "Aksesoris", "Baru", "Sempurna", 50);
-    insertLast("Keyboard", "Corsair", 1600000, "Aksesoris", "Baru", "Bagus", 15);
+    insertLast("", "Laptop", "HP", 7500000, "Elektronik", "Bekas", "Baik", 5);
+    insertLast("", "Flashdisk", "Kingston", 250000, "Aksesoris", "Baru", "Sempurna", 50);
+    insertLast("", "Keyboard", "Corsair", 1600000, "Aksesoris", "Baru", "Bagus", 15);
 
-    insertLast("Laptop", "Asus", 8000000, "Elektronik", "Baru", "Bagus", 10);
-    insertLast("Mouse", "Razer", 350000, "Aksesoris", "Baru", "Sempurna", 7);
-    insertLast("Keyboard", "Logitech", 1400000, "Aksesoris", "Bekas", "Baik", 25);
+    insertLast("", "Laptop", "Asus", 8000000, "Elektronik", "Baru", "Bagus", 10);
+    insertLast("", "Mouse", "Razer", 350000, "Aksesoris", "Baru", "Sempurna", 7);
+    insertLast("", "Keyboard", "Logitech", 1400000, "Aksesoris", "Bekas", "Baik", 25);
 
-    insertLast("Monitor", "Samsung", 4000000, "Elektronik", "Baru", "Bagus", 15);
-    insertLast("Laptop", "Dell", 8500000, "Elektronik", "Baru", "Sempurna", 8);
-    insertLast("Keyboard", "Razer", 1500000, "Aksesoris", "Baru", "Sempurna", 20);
+    insertLast("", "Monitor", "Samsung", 4000000, "Elektronik", "Baru", "Bagus", 15);
+    insertLast("", "Laptop", "Dell", 8500000, "Elektronik", "Baru", "Sempurna", 8);
+    insertLast("", "Keyboard", "Razer", 1500000, "Aksesoris", "Baru", "Sempurna", 20);
 
-    insertLast("Flashdisk", "Sandisk", 300000, "Aksesoris", "Baru", "Bagus", 30);
-    insertLast("Monitor", "LG", 4500000, "Elektronik", "Baru", "Sempurna", 12);
-    insertLast("Mouse", "SteelSeries", 400000, "Aksesoris", "Baru", "Bagus", 10);
+    insertLast("", "Flashdisk", "Sandisk", 300000, "Aksesoris", "Baru", "Bagus", 30);
+    insertLast("", "Monitor", "LG", 4500000, "Elektronik", "Baru", "Sempurna", 12);
+    insertLast("", "Mouse", "SteelSeries", 400000, "Aksesoris", "Baru", "Bagus", 10);
 
     while (true)
     {
