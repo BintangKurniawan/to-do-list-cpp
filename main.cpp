@@ -128,11 +128,11 @@ void cetakList()
              << setw(15) << "Price"
              << setw(20) << "Category"
              << setw(12) << "Status"
-             << setw(12) << "Condition"
+             << setw(18) << "Condition"
              << setw(8) << "Stock"
              << endl;
 
-        cout << string(122, '-') << endl;
+        cout << string(126, '-') << endl;
         while (current != NULL)
         {
             cout << left
@@ -142,7 +142,7 @@ void cetakList()
                  << setw(15) << fixed << setprecision(0) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
-                 << setw(12) << current->condition
+                 << setw(18) << current->condition
                  << setw(8) << current->stock
                  << endl;
 
@@ -292,11 +292,11 @@ void cariBarang()
              << setw(15) << "Price"
              << setw(20) << "Category"
              << setw(12) << "Status"
-             << setw(12) << "Condition"
+             << setw(18) << "Condition"
              << setw(8) << "Stock"
              << endl;
 
-        cout << string(122, '-') << endl;
+        cout << string(126, '-') << endl;
 
         while (current != NULL)
         {
@@ -325,7 +325,7 @@ void cariBarang()
                      << setw(15) << fixed << setprecision(0) << current->price
                      << setw(20) << current->category
                      << setw(12) << current->status
-                     << setw(12) << current->condition
+                     << setw(18) << current->condition
                      << setw(8) << current->stock
                      << endl;
             }
@@ -363,11 +363,11 @@ void filterStockKosong()
          << setw(15) << "Price"
          << setw(20) << "Category"
          << setw(12) << "Status"
-         << setw(12) << "Condition"
+         << setw(18) << "Condition"
          << setw(8) << "Stock"
          << endl;
 
-    cout << string(122, '-') << endl;
+    cout << string(126, '-') << endl;
 
     while (current != NULL)
     {
@@ -381,7 +381,7 @@ void filterStockKosong()
                  << setw(15) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
-                 << setw(12) << current->condition
+                 << setw(18) << current->condition
                  << setw(8) << current->stock
                  << endl;
         }
@@ -520,8 +520,9 @@ void tambahList()
         cin >> price;
 
         cin.ignore();
-        cout << "Masukkan category barang: ";
         string category;
+
+        cout << "Masukkan category barang: ";
         getline(cin, category);
 
         if (!category.empty())
@@ -533,29 +534,55 @@ void tambahList()
             }
         }
 
-        cout << "Masukkan status barang: ";
         string status;
-        getline(cin, status);
-
-        if (!status.empty())
+        while (true)
         {
-            status[0] = toupper(status[0]);
-            for (int i = 1; i < status.length(); i++)
+
+            cout << "Masukkan status barang (Baru/Bekas): ";
+            getline(cin, status);
+
+            if (!status.empty())
             {
-                status[i] = tolower(status[i]);
+                status[0] = toupper(status[0]);
+                for (int i = 1; i < status.length(); i++)
+                {
+                    status[i] = tolower(status[i]);
+                }
+            }
+
+            if (status == "Baru" || status == "Bekas")
+            {
+                break;
+            }
+            else
+            {
+                cout << "Status tidak valid. Harap masukkan 'Baru' atau 'Bekas'.\n";
             }
         }
 
-        cout << "Masukkan kondisi barang: ";
         string condition;
-        getline(cin, condition);
-
-        if (!condition.empty())
+        while (true)
         {
-            condition[0] = toupper(condition[0]);
-            for (int i = 1; i < condition.length(); i++)
+
+            cout << "Masukkan kondisi barang (Baik/ Rusak ringan/ Rusak berat): ";
+            getline(cin, condition);
+
+            if (!condition.empty())
             {
-                condition[i] = tolower(condition[i]);
+                condition[0] = toupper(condition[0]);
+                for (int i = 1; i < condition.length(); i++)
+                {
+                    condition[i] = tolower(condition[i]);
+                }
+            }
+
+            if (condition == "Baik" || condition == "Rusak ringan" || condition == "Rusak berat")
+            {
+                break;
+            }
+            else
+            {
+                cout << "Kondisi tidak valid. Silakan coba lagi.\n";
             }
         }
 
@@ -611,11 +638,11 @@ void cetakbyId(string id)
                  << setw(15) << "Price"
                  << setw(20) << "Category"
                  << setw(12) << "Status"
-                 << setw(12) << "Condition"
+                 << setw(18) << "Condition"
                  << setw(8) << "Stock"
                  << endl;
 
-            cout << string(122, '-') << endl;
+            cout << string(128, '-') << endl;
 
             cout << left
                  << setw(20) << current->id
@@ -624,7 +651,7 @@ void cetakbyId(string id)
                  << setw(15) << fixed << setprecision(0) << current->price
                  << setw(20) << current->category
                  << setw(12) << current->status
-                 << setw(12) << current->condition
+                 << setw(18) << current->condition
                  << setw(8) << current->stock
                  << endl;
             break;
@@ -837,7 +864,6 @@ void editList()
             cetakbyId(id);
             cout << "Pilihan tidak tersedia" << endl;
         }
-        
     }
 }
 void hapusBarangById()
@@ -1289,20 +1315,20 @@ int main()
     insertLast("", "Monitor", "BenQ", 4200000, "Elektronik", "Bekas", "Baik", 10);
 
     insertLast("", "Laptop", "HP", 7500000, "Elektronik", "Bekas", "Baik", 5);
-    insertLast("", "Flashdisk", "Kingston", 250000, "Aksesoris", "Baru", "Sempurna", 50);
-    insertLast("", "Keyboard", "Corsair", 1600000, "Aksesoris", "Baru", "Bagus", 15);
+    insertLast("", "Flashdisk", "Kingston", 250000, "Aksesoris", "Baru", "Rusak ringan", 50);
+    insertLast("", "Keyboard", "Corsair", 1600000, "Aksesoris", "Baru", "Baik", 15);
 
-    insertLast("", "Laptop", "Asus", 8000000, "Elektronik", "Baru", "Bagus", 10);
-    insertLast("", "Mouse", "Razer", 350000, "Aksesoris", "Baru", "Sempurna", 7);
+    insertLast("", "Laptop", "Asus", 8000000, "Elektronik", "Baru", "Baik", 10);
+    insertLast("", "Mouse", "Razer", 350000, "Aksesoris", "Baru", "Rusak ringan", 7);
     insertLast("", "Keyboard", "Logitech", 1400000, "Aksesoris", "Bekas", "Baik", 25);
 
-    insertLast("", "Monitor", "Samsung", 4000000, "Elektronik", "Baru", "Bagus", 15);
-    insertLast("", "Laptop", "Dell", 8500000, "Elektronik", "Baru", "Sempurna", 8);
-    insertLast("", "Keyboard", "Razer", 1500000, "Aksesoris", "Baru", "Sempurna", 20);
+    insertLast("", "Monitor", "Samsung", 4000000, "Elektronik", "Baru", "Rusak ringan", 15);
+    insertLast("", "Laptop", "Dell", 8500000, "Elektronik", "Baru", "Baik", 8);
+    insertLast("", "Keyboard", "Razer", 1500000, "Aksesoris", "Baru", "Baik", 20);
 
-    insertLast("", "Flashdisk", "Sandisk", 300000, "Aksesoris", "Baru", "Bagus", 30);
-    insertLast("", "Monitor", "LG", 4500000, "Elektronik", "Baru", "Sempurna", 12);
-    insertLast("", "Mouse", "SteelSeries", 400000, "Aksesoris", "Baru", "Bagus", 10);
+    insertLast("", "Flashdisk", "Sandisk", 300000, "Aksesoris", "Baru", "Rusak ringan", 30);
+    insertLast("", "Monitor", "LG", 4500000, "Elektronik", "Baru", "Baik", 12);
+    insertLast("", "Mouse", "SteelSeries", 400000, "Aksesoris", "Baru", "Baik", 10);
 
     while (true)
     {
