@@ -918,7 +918,7 @@ void hapusBarangById()
                 prev->next = current->next;
                 delete current;
             }
-
+            system("cls");
             cetakList();
             cout << endl;
             cout << "Barang dengan ID " << id << " berhasil dihapus." << endl;
@@ -1297,11 +1297,11 @@ void kembalikanBarang()
             }
 
             cout << endl;
-            cout << "Barang pinjaman dengan ID " << id << " berhasil dikembalikan." << endl;
+            cout << "Barang pinjaman dengan " << id << " berhasil dikembalikan." << endl;
         }
         else
         {
-            cout << "Barang pinjaman dengan ID " << id << " tidak ditemukan." << endl;
+            cout << "Barang pinjaman dengan " << id << " tidak ditemukan." << endl;
         }
 
         system("pause");
